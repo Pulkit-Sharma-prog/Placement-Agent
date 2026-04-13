@@ -1,0 +1,52 @@
+{
+  "normalizations": {
+    "js": "JavaScript",
+    "javascript": "JavaScript",
+    "py": "Python",
+    "python": "Python",
+    "ml": "Machine Learning",
+    "react.js": "React",
+    "reactjs": "React",
+    "node.js": "Node.js",
+    "nodejs": "Node.js",
+    "postgresql": "PostgreSQL",
+    "postgres": "PostgreSQL",
+    "mysql": "MySQL",
+    "mongo": "MongoDB",
+    "mongodb": "MongoDB",
+    "sklearn": "scikit-learn",
+    "k8s": "Kubernetes",
+    "tf": "TensorFlow",
+    "pytorch": "PyTorch",
+    "gcp": "GCP",
+    "aws": "AWS",
+    "azure": "Azure",
+    "ts": "TypeScript",
+    "typescript": "TypeScript",
+    "cpp": "C++",
+    "c++": "C++",
+    "golang": "Go",
+    "rust": "Rust",
+    "dsa": "Data Structures",
+    "oop": "OOP"
+  },
+  "categories": {
+    "Programming": ["Python", "Java", "C++", "JavaScript", "TypeScript", "Go", "Rust", "Swift", "Kotlin", "PHP", "Ruby", "R", "Scala", "OOP", "Data Structures", "Algorithms"],
+    "Data Science": ["Machine Learning", "Deep Learning", "TensorFlow", "PyTorch", "scikit-learn", "Keras", "Pandas", "NumPy", "Statistics", "NLP", "Computer Vision", "Spark", "Hadoop", "Tableau", "Power BI"],
+    "Web Dev": ["React", "Node.js", "FastAPI", "Flask", "Django", "HTML", "CSS", "Tailwind", "Angular", "Vue", "Next.js", "GraphQL", "REST API", "Spring Boot", "Express"],
+    "Cloud": ["AWS", "GCP", "Azure", "Docker", "Kubernetes", "Terraform", "Ansible", "Jenkins", "CI/CD", "Linux", "Microservices", "Distributed Systems"],
+    "Soft Skills": ["Communication", "Leadership", "Teamwork", "Problem Solving", "Agile", "Scrum", "Project Management"]
+  },
+  "certification_recommendations": {
+    "Docker": "Docker Certified Associate",
+    "Kubernetes": "Certified Kubernetes Administrator (CKA)",
+    "AWS": "AWS Solutions Architect Associate",
+    "GCP": "Google Cloud Associate Cloud Engineer",
+    "Azure": "Azure Fundamentals (AZ-900)",
+    "Machine Learning": "Google ML Crash Course / Coursera ML Specialization",
+    "Data Science": "IBM Data Science Professional Certificate",
+    "Python": "PCEP — Python Certified Entry-Level Programmer",
+    "System Design": "Grokking the System Design Interview",
+    "TypeScript": "TypeScript Deep Dive (free book)"
+  }
+}
