@@ -1,10 +1,11 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
   Upload, CheckCircle, AlertCircle, Globe, Link2, ExternalLink,
   Phone, Mail, GraduationCap, Briefcase, FolderGit2, Award,
   Languages, TrendingUp, BookOpen, Lightbulb, FlaskConical, Users, Heart,
+  FileText, Cpu, Sparkles, BarChart2, Zap,
 } from 'lucide-react'
 import { toast } from 'sonner'
 import api from '../../lib/api'
@@ -63,6 +64,235 @@ function SectionCard({ icon: Icon, title, children }) {
         {title}
       </h3>
       {children}
+    </motion.div>
+  )
+}
+
+// ─── Resume Parsing Loader ───────────────────────────────────────────────────
+const PARSE_STEPS = [
+  { icon: FileText,  label: 'Reading document',        detail: 'Extracting raw text from your file…'        },
+  { icon: Cpu,       label: 'Parsing sections',         detail: 'Identifying education, experience, projects…' },
+  { icon: Zap,       label: 'Extracting skills',        detail: 'Matching against 300+ skill definitions…'   },
+  { icon: Sparkles,  label: 'Building your profile',    detail: 'Normalising and categorising all skills…'    },
+  { icon: BarChart2, label: 'Computing match scores',   detail: 'Running TF-IDF similarity against live jobs…' },
+]
+
+function ResumeParsingLoader() {
+  const [step, setStep]       = useState(0)
+  const [progress, setProgress] = useState(0)
+
+  useEffect(() => {
+    // Advance steps over ~18 s total so it roughly covers real parse time
+    const durations = [2200, 3500, 4500, 5500, 7000]
+    let elapsed = 0
+    const timers = durations.map((d, i) => {
+      elapsed += d
+      return setTimeout(() => setStep(i + 1), elapsed)
+    })
+    // Smooth progress bar
+    const interval = setInterval(() => {
+      setProgress(p => {
+        if (p >= 95) { clearInterval(interval); return 95 }
+        const speed = p < 40 ? 1.8 : p < 70 ? 1.1 : 0.4
+        return Math.min(p + speed, 95)
+      })
+    }, 120)
+    return () => { timers.forEach(clearTimeout); clearInterval(interval) }
+  }, [])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, scale: 0.97 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.97 }}
+      transition={{ duration: 0.3 }}
+      className="w-full rounded-2xl overflow-hidden relative"
+      style={{
+        background: 'linear-gradient(135deg, rgba(108,99,255,0.10) 0%, rgba(62,207,207,0.07) 50%, rgba(108,99,255,0.08) 100%)',
+        border: '1px solid rgba(108,99,255,0.25)',
+        padding: '28px 24px',
+      }}
+    >
+      {/* Ambient glow blobs */}
+      <div style={{
+        position: 'absolute', top: '-40px', left: '10%',
+        width: 180, height: 180, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-30px', right: '15%',
+        width: 140, height: 140, borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(62,207,207,0.15) 0%, transparent 70%)',
+        pointerEvents: 'none',
+      }} />
+
+      {/* Header */}
+      <div className="relative flex items-center gap-3 mb-6">
+        {/* Animated document icon with scanner line */}
+        <div className="relative flex-shrink-0" style={{ width: 44, height: 52 }}>
+          <svg viewBox="0 0 44 52" fill="none" width="44" height="52">
+            <rect x="2" y="2" width="36" height="48" rx="5"
+              fill="rgba(108,99,255,0.12)" stroke="rgba(108,99,255,0.5)" strokeWidth="1.5"/>
+            <line x1="10" y1="16" x2="34" y2="16" stroke="rgba(108,99,255,0.35)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="23" x2="30" y2="23" stroke="rgba(108,99,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="30" x2="32" y2="30" stroke="rgba(108,99,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="37" x2="26" y2="37" stroke="rgba(108,99,255,0.2)"  strokeWidth="1.5" strokeLinecap="round"/>
+          </svg>
+          {/* scanner line */}
+          <motion.div
+            style={{
+              position: 'absolute', left: 4, right: 4, height: 2,
+              background: 'linear-gradient(90deg, transparent, #6C63FF, #3ECFCF, transparent)',
+              borderRadius: 2, boxShadow: '0 0 8px rgba(108,99,255,0.8)',
+              top: 6,
+            }}
+            animate={{ top: [6, 44, 6] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        </div>
+
+        <div>
+          <p className="font-bold text-base" style={{ color: 'var(--text-primary)' }}>
+            AI Resume Parser
+          </p>
+          <p className="text-xs mt-0.5" style={{ color: 'var(--text-muted)' }}>
+            Analysing your document with NLP…
+          </p>
+        </div>
+
+        {/* Pulsing indicator */}
+        <div className="ml-auto flex items-center gap-1.5">
+          {[0, 1, 2].map(i => (
+            <motion.div
+              key={i}
+              style={{ width: 5, height: 5, borderRadius: '50%', background: '#6C63FF' }}
+              animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.1, 0.8] }}
+              transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
+            />
+          ))}
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="relative mb-5">
+        <div className="flex justify-between items-center mb-1.5">
+          <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>Processing</span>
+          <span className="text-xs font-bold aurora-text">{Math.round(progress)}%</span>
+        </div>
+        <div className="h-2 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+          <motion.div
+            style={{
+              height: '100%', borderRadius: 999,
+              background: 'linear-gradient(90deg, #6C63FF, #3ECFCF)',
+              boxShadow: '0 0 12px rgba(108,99,255,0.6)',
+              width: `${progress}%`,
+            }}
+            transition={{ duration: 0.4 }}
+          />
+        </div>
+        {/* shimmer overlay */}
+        <motion.div
+          style={{
+            position: 'absolute', top: 22, left: 0, width: '30%', height: 8,
+            background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent)',
+            borderRadius: 999, pointerEvents: 'none',
+          }}
+          animate={{ left: ['-30%', '110%'] }}
+          transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.3 }}
+        />
+      </div>
+
+      {/* Steps */}
+      <div className="space-y-2.5">
+        {PARSE_STEPS.map((s, i) => {
+          const done    = step > i
+          const active  = step === i
+          const pending = step < i
+          const Icon    = s.icon
+          return (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: pending ? 0.35 : 1, x: 0 }}
+              transition={{ delay: i * 0.08, duration: 0.3 }}
+              className="flex items-center gap-3"
+            >
+              {/* Icon circle */}
+              <div
+                style={{
+                  width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  background: done
+                    ? 'rgba(62,207,207,0.15)'
+                    : active
+                      ? 'rgba(108,99,255,0.2)'
+                      : 'rgba(255,255,255,0.04)',
+                  border: done
+                    ? '1px solid rgba(62,207,207,0.4)'
+                    : active
+                      ? '1px solid rgba(108,99,255,0.5)'
+                      : '1px solid rgba(255,255,255,0.08)',
+                  transition: 'all 0.4s ease',
+                  boxShadow: active ? '0 0 14px rgba(108,99,255,0.4)' : 'none',
+                }}
+              >
+                {done ? (
+                  <motion.div
+                    initial={{ scale: 0 }} animate={{ scale: 1 }}
+                    transition={{ type: 'spring', stiffness: 400, damping: 15 }}
+                  >
+                    <CheckCircle size={15} style={{ color: '#3ECFCF' }} />
+                  </motion.div>
+                ) : active ? (
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
+                  >
+                    <Icon size={14} style={{ color: '#6C63FF' }} />
+                  </motion.div>
+                ) : (
+                  <Icon size={14} style={{ color: 'rgba(255,255,255,0.2)' }} />
+                )}
+              </div>
+
+              {/* Text */}
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium leading-none"
+                  style={{ color: done ? '#3ECFCF' : active ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                  {s.label}
+                </p>
+                {active && (
+                  <motion.p
+                    initial={{ opacity: 0, y: 3 }} animate={{ opacity: 1, y: 0 }}
+                    className="text-xs mt-0.5 truncate"
+                    style={{ color: 'var(--text-muted)' }}
+                  >
+                    {s.detail}
+                  </motion.p>
+                )}
+              </div>
+
+              {/* Status tag */}
+              {done && (
+                <motion.span
+                  initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
+                  className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
+                  style={{ background: 'rgba(62,207,207,0.12)', color: '#3ECFCF' }}
+                >
+                  done
+                </motion.span>
+              )}
+              {active && (
+                <span className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
+                  style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF' }}>
+                  running
+                </span>
+              )}
+            </motion.div>
+          )
+        })}
+      </div>
     </motion.div>
   )
 }
@@ -131,35 +361,35 @@ export default function StudentProfile() {
             )}
           </div>
 
-          <label
-            className="flex flex-col items-center justify-center w-full h-36 rounded-xl cursor-pointer transition-all"
-            style={{
-              border: `2px dashed ${dragOver ? 'var(--purple)' : 'var(--border-subtle)'}`,
-              background: dragOver ? 'rgba(108,99,255,0.08)' : 'var(--bg-elevated)',
-            }}
-            onDragOver={e => { e.preventDefault(); setDragOver(true) }}
-            onDragLeave={() => setDragOver(false)}
-            onDrop={onDrop}
-          >
-            <input type="file" accept=".pdf,.docx" className="hidden" onChange={onInputChange} />
+          <AnimatePresence mode="wait">
             {uploading ? (
-              <div className="flex flex-col items-center gap-3">
-                <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
-                <span className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>
-                  Parsing your resume…
-                </span>
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>This may take 10–20 seconds</span>
-              </div>
+              <ResumeParsingLoader key="loader" />
             ) : (
-              <div className="flex flex-col items-center gap-2">
-                <Upload size={28} style={{ color: 'var(--purple)' }} />
-                <span className="text-sm font-medium">
-                  {hasResume ? 'Upload new resume to update profile' : 'Drop your resume here'}
-                </span>
-                <span className="text-xs" style={{ color: 'var(--text-muted)' }}>PDF or DOCX · Click or drag & drop</span>
-              </div>
+              <motion.label
+                key="dropzone"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="flex flex-col items-center justify-center w-full h-36 rounded-xl cursor-pointer transition-all"
+                style={{
+                  border: `2px dashed ${dragOver ? 'var(--purple)' : 'var(--border-subtle)'}`,
+                  background: dragOver ? 'rgba(108,99,255,0.08)' : 'var(--bg-elevated)',
+                }}
+                onDragOver={e => { e.preventDefault(); setDragOver(true) }}
+                onDragLeave={() => setDragOver(false)}
+                onDrop={onDrop}
+              >
+                <input type="file" accept=".pdf,.docx" className="hidden" onChange={onInputChange} />
+                <div className="flex flex-col items-center gap-2">
+                  <Upload size={28} style={{ color: 'var(--purple)' }} />
+                  <span className="text-sm font-medium">
+                    {hasResume ? 'Upload new resume to update profile' : 'Drop your resume here'}
+                  </span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>PDF or DOCX · Click or drag & drop</span>
+                </div>
+              </motion.label>
             )}
-          </label>
+          </AnimatePresence>
         </div>
 
         {/* ── No resume yet ───────────────────────────────────────────── */}
