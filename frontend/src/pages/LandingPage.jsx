@@ -202,9 +202,12 @@ export default function LandingPage() {
           borderBottom: '1px solid rgba(255,255,255,0.06)',
         }}
       >
-        <span className="text-xl font-bold aurora-text" style={{ fontFamily: 'var(--font-heading)' }}>
-          PlacementsAI
-        </span>
+        <div className="flex items-center gap-2.5">
+          <img src="/favicon.svg" alt="" className="w-8 h-8 rounded-lg" />
+          <span className="text-xl font-bold aurora-text" style={{ fontFamily: 'var(--font-heading)' }}>
+            PlacementsAI
+          </span>
+        </div>
         <div className="flex items-center gap-3">
           <button
             onClick={() => navigate('/login')}

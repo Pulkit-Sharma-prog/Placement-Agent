@@ -67,6 +67,7 @@ export default function RegisterPage() {
         className="glass-card p-8 w-full max-w-md"
       >
         <div className="text-center mb-7">
+          <img src="/favicon.svg" alt="PlacementsAI" className="w-12 h-12 mx-auto mb-3 rounded-xl" />
           <h1 className="text-2xl font-bold aurora-text" style={{ fontFamily: 'var(--font-heading)' }}>
             Create Account
           </h1>

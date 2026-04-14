@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 40" width="220" height="40">
+  <defs>
+    <linearGradient id="logo-aurora" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C63FF"/>
+      <stop offset="50%" stop-color="#3ECFCF"/>
+      <stop offset="100%" stop-color="#FF6B9D"/>
+    </linearGradient>
+    <linearGradient id="logo-inner" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B83FF"/>
+      <stop offset="100%" stop-color="#5EEAEA"/>
+    </linearGradient>
+    <linearGradient id="text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#6C63FF"/>
+      <stop offset="45%" stop-color="#3ECFCF"/>
+      <stop offset="100%" stop-color="#FF6B9D"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon mark (same as favicon) -->
+  <rect x="2" y="2" width="36" height="36" rx="9" fill="url(#logo-aurora)"/>
+  <path d="M20 7 L21.4 14.2 L28 12.8 L22 18.5 L22.2 20 L28 25.2 L21.4 23.8 L20 31 L18.6 23.8 L12 25.2 L17.8 20 L18 18.5 L12 12.8 L18.6 14.2 Z" fill="white" opacity="0.95"/>
+  <circle cx="20" cy="20" r="2.8" fill="url(#logo-inner)"/>
+  <circle cx="12" cy="12.8" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="28" cy="12.8" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="12" cy="25.2" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="28" cy="25.2" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="20" cy="7" r="1.2" fill="white" opacity="0.65"/>
+  <circle cx="20" cy="31" r="1.2" fill="white" opacity="0.65"/>
+
+  <!-- "Placements" text -->
+  <text x="48" y="27" font-family="'Space Grotesk', 'Inter', system-ui, sans-serif" font-weight="700" font-size="20" fill="#F0F4FF" letter-spacing="-0.3">
+    Placements
+  </text>
+  <!-- "AI" text with gradient -->
+  <text x="172" y="27" font-family="'Space Grotesk', 'Inter', system-ui, sans-serif" font-weight="700" font-size="20" fill="url(#text-grad)" letter-spacing="-0.3">
+    AI
+  </text>
+</svg>

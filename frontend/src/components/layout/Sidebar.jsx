@@ -2,7 +2,7 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import {
   LayoutDashboard, User, Briefcase, ClipboardList, Bell, LogOut,
-  Users, Building2, BarChart3, Calendar, Sparkles,
+  Users, Building2, BarChart3, Calendar,
 } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 
@@ -100,12 +100,7 @@ export default function Sidebar() {
       {/* Logo + branding */}
       <div className="px-6 py-5">
         <div className="flex items-center gap-2.5">
-          <div
-            className="w-9 h-9 rounded-xl flex items-center justify-center"
-            style={{ background: 'var(--gradient-aurora)' }}
-          >
-            <Sparkles size={18} className="text-white" />
-          </div>
+          <img src="/favicon.svg" alt="PlacementsAI" className="w-9 h-9 rounded-xl" />
           <div>
             <span
               className="text-lg font-bold aurora-text block leading-tight"
