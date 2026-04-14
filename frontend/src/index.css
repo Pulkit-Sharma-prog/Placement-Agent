@@ -73,6 +73,86 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   border-radius: 8px;
 }
 
+/* ── Button styles ─────────────────────────────────────────────────────── */
+
+.btn-aurora {
+  background: var(--gradient-aurora);
+  color: white;
+  font-weight: 600;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+.btn-aurora:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(108,99,255,0.3);
+}
+.btn-aurora::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-aurora:hover::after {
+  transform: translateX(100%);
+}
+
+.btn-glass {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-primary);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+.btn-glass:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: rgba(108,99,255,0.3);
+}
+
+/* ── Glass card variants ──────────────────────────────────────────────── */
+
+.glass-card-solid {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 16px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.glass-card-solid:hover {
+  border-color: var(--border-active);
+  box-shadow: 0 4px 20px rgba(108,99,255,0.1);
+}
+
+/* ── Stat glow effect ─────────────────────────────────────────────────── */
+
+.stat-glow {
+  position: relative;
+}
+.stat-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 16px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(108,99,255,0.3), transparent, rgba(62,207,207,0.2));
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  -webkit-mask-composite: xor;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.stat-glow:hover::before { opacity: 1; }
+
+/* ── Responsive adjustments ───────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .glass-card:hover { transform: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

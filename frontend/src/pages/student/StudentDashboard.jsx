@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { motion } from 'framer-motion'
-import { Target, FileText, Calendar, Trophy, Upload, ChevronRight, AlertCircle } from 'lucide-react'
+import { Target, FileText, Calendar, Trophy, Upload, ChevronRight, AlertCircle, Sparkles, Zap } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthStore } from '../../store/authStore'
 import api from '../../lib/api'
@@ -303,6 +303,102 @@ export default function StudentDashboard() {
             </motion.div>
           </div>
         </div>
+
+        {/* ── Jobs Matching Your Skills ────────────────────────────────── */}
+        {hasResume && matches.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="glass-card p-5"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <Sparkles size={18} style={{ color: 'var(--purple)' }} />
+                <h2 className="font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+                  Jobs Matching Your Skills
+                </h2>
+              </div>
+              <button
+                onClick={() => navigate('/student/jobs')}
+                className="text-xs flex items-center gap-1 hover:opacity-80 transition-opacity"
+                style={{ color: 'var(--purple)' }}
+              >
+                View all <ChevronRight size={12} />
+              </button>
+            </div>
+            <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+              These jobs specifically require skills you already have.
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {matches.slice(0, 6).map((m, i) => {
+                const overlapCount = (m.skill_overlap || []).length
+                const requiredCount = (m.job.required_skills || []).length
+                const coveragePct = requiredCount > 0 ? Math.round((overlapCount / requiredCount) * 100) : 0
+                return (
+                  <motion.div
+                    key={m.match_id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.05 * i }}
+                    className="p-4 rounded-xl transition-all hover:border-purple-500/30 cursor-pointer"
+                    style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}
+                    onClick={() => navigate('/student/jobs')}
+                  >
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className="min-w-0">
+                        <p className="text-sm font-semibold truncate">{m.job.title}</p>
+                        <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--text-muted)' }}>
+                          {m.job.company}
+                        </p>
+                      </div>
+                      <div className="flex-shrink-0 text-right">
+                        <span className="text-lg font-bold aurora-text">{Math.round(m.score)}%</span>
+                      </div>
+                    </div>
+
+                    {/* Skill coverage bar */}
+                    <div className="mb-2">
+                      <div className="flex justify-between items-center mb-1">
+                        <span className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
+                          Skill coverage
+                        </span>
+                        <span className="text-[10px] font-semibold" style={{ color: coveragePct >= 70 ? '#4ADE80' : coveragePct >= 40 ? '#FFC837' : '#FF6B9D' }}>
+                          {overlapCount}/{requiredCount} skills
+                        </span>
+                      </div>
+                      <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
+                        <div
+                          className="h-full rounded-full transition-all"
+                          style={{
+                            width: `${coveragePct}%`,
+                            background: coveragePct >= 70 ? '#4ADE80' : coveragePct >= 40 ? 'var(--gradient-aurora)' : '#FF6B9D',
+                          }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Matching skills */}
+                    <div className="flex flex-wrap gap-1">
+                      {(m.skill_overlap || []).slice(0, 3).map(s => (
+                        <span key={s} className="text-[10px] px-2 py-0.5 rounded-full"
+                          style={{ background: 'rgba(108,99,255,0.12)', color: '#6C63FF' }}>
+                          {s}
+                        </span>
+                      ))}
+                      {(m.missing_skills || []).slice(0, 2).map(s => (
+                        <span key={s} className="text-[10px] px-2 py-0.5 rounded-full"
+                          style={{ background: 'rgba(255,107,157,0.1)', color: '#FF6B9D' }}>
+                          +{s}
+                        </span>
+                      ))}
+                    </div>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </motion.div>
+        )}
       </div>
     </PageWrapper>
   )

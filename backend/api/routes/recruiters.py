@@ -86,6 +86,34 @@ def update_recruiter(
     return {"success": True, "data": _serialize_recruiter(rec, db)}
 
 
+@router.get("/{recruiter_id}/performance")
+def get_performance_metrics(
+    recruiter_id: str,
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db_session),
+):
+    """Get comprehensive recruiter performance metrics."""
+    if user["role"] == "recruiter":
+        rec = db.query(Recruiter).filter_by(id=recruiter_id, user_id=user["sub"]).first()
+        if not rec:
+            raise HTTPException(status_code=403, detail="Access denied")
+    elif user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Recruiter or Admin only")
+
+    import asyncio
+    from agents.recruiter_management.agent import RecruiterManagementAgent
+    agent = RecruiterManagementAgent()
+    loop = asyncio.new_event_loop()
+    try:
+        result = loop.run_until_complete(
+            agent.run({"action": "performance_metrics", "recruiter_id": recruiter_id})
+        )
+    finally:
+        loop.close()
+
+    return {"success": True, "data": result}
+
+
 @router.get("/{recruiter_id}/jobs")
 def get_recruiter_jobs(
     recruiter_id: str,

@@ -251,6 +251,52 @@ def get_shortlist(
     return {"success": True, "data": shortlist}
 
 
+@router.get("/skill-demand")
+def get_skill_demand(
+    user=Depends(get_current_user),
+    db: Session = Depends(get_db_session),
+):
+    """Return which skills are most in-demand across active jobs,
+    and for students, which of their skills match the most jobs."""
+    active_jobs = db.query(Job).filter_by(status="active").all()
+
+    skill_demand = {}  # skill -> count of jobs requiring it
+    for job in active_jobs:
+        for skill in (job.required_skills or []):
+            skill_demand[skill] = skill_demand.get(skill, 0) + 1
+        for skill in (job.preferred_skills or []):
+            skill_demand[skill] = skill_demand.get(skill, 0) + 0.5
+
+    sorted_demand = sorted(skill_demand.items(), key=lambda x: -x[1])[:20]
+
+    result = {
+        "total_active_jobs": len(active_jobs),
+        "top_demanded_skills": [
+            {"skill": s, "demand_count": round(c, 1)} for s, c in sorted_demand
+        ],
+    }
+
+    # If student, also show which of their skills are in demand
+    if user["role"] == "student":
+        student = db.query(Student).filter_by(user_id=user["sub"]).first()
+        if student:
+            profile = db.query(StudentProfile).filter_by(student_id=student.id).first()
+            if profile and profile.canonical_skills:
+                my_skills = set(profile.canonical_skills)
+                matching = [
+                    {"skill": s, "demand_count": round(c, 1)}
+                    for s, c in sorted_demand if s in my_skills
+                ]
+                missing_high_demand = [
+                    {"skill": s, "demand_count": round(c, 1)}
+                    for s, c in sorted_demand[:10] if s not in my_skills
+                ]
+                result["your_in_demand_skills"] = matching
+                result["skills_to_learn"] = missing_high_demand
+
+    return {"success": True, "data": result}
+
+
 @router.get("/{job_id}/shortlist/pdf")
 def get_shortlist_pdf(
     job_id: str,
