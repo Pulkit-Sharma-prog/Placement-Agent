@@ -31,6 +31,7 @@ import RecruiterManagement from './pages/admin/RecruiterManagement'
 
 // Shared pages
 import StudentDetailPage from './pages/shared/StudentDetailPage'
+import LandingPage from './pages/LandingPage'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -77,6 +78,14 @@ function AnimatedRoutes() {
     <AnimatePresence mode="wait">
       <Routes location={location} key={location.pathname}>
         {/* Public routes */}
+        <Route
+          path="/"
+          element={
+            token
+              ? <Navigate to={user?.role === 'recruiter' ? '/recruiter' : user?.role === 'admin' ? '/admin' : '/student'} replace />
+              : <LandingPage />
+          }
+        />
         <Route
           path="/login"
           element={
@@ -184,7 +193,7 @@ function AnimatedRoutes() {
           element={
             token
               ? <Navigate to={user?.role === 'recruiter' ? '/recruiter' : user?.role === 'admin' ? '/admin' : '/student'} replace />
-              : <Navigate to="/login" replace />
+              : <Navigate to="/" replace />
           }
         />
       </Routes>

@@ -76,6 +76,7 @@ export default function LoginPage() {
         >
           {/* Logo */}
           <div className="text-center mb-8">
+            <img src="/favicon.svg" alt="PlacementsAI" className="w-14 h-14 mx-auto mb-3 rounded-2xl" />
             <h1 className="text-3xl font-bold aurora-text" style={{ fontFamily: 'var(--font-heading)' }}>
               PlacementsAI
             </h1>
