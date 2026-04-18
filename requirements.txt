@@ -29,5 +29,14 @@ spacy==3.8.13
 # Scheduling
 APScheduler==3.11.2
 
+# Rate limiting
+slowapi==0.1.9
+
 # Google auth
 google-auth==2.49.2
+
+# Database migrations
+alembic==1.13.3
+
+# Testing
+pytest==8.3.3

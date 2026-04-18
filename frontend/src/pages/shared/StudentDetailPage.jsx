@@ -226,7 +226,7 @@ export default function StudentDetailPage() {
               {hasResume && (
                 <div className="mt-3">
                   <a
-                    href={`${import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'}/students/${studentId}/resume/download`}
+                    href={`${import.meta.env.VITE_API_BASE_URL || '/api/v1'}/students/${studentId}/resume/download`}
                     className="inline-flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg transition-opacity hover:opacity-80"
                     style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)', color: 'var(--text-secondary)' }}
                   >
