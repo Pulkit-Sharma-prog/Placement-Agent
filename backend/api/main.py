@@ -5,8 +5,11 @@ All routes follow API_SPEC.md.
 Base URL: /api/v1
 """
 
+import asyncio
+import logging
 import os
 import sys
+from contextlib import asynccontextmanager
 
 # Ensure backend/ is in the Python path
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -17,56 +20,82 @@ from fastapi.middleware.cors import CORSMiddleware
 from api.routes import admin, analytics, applications, auth, jobs, recruiters, students
 from database.connection import create_tables
 
+logger = logging.getLogger("placements.api")
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s: %(message)s")
+
+
+def _run_matching_job() -> None:
+    """Run the matching engine once. Executed by APScheduler in a worker thread."""
+    from agents.matching_engine.agent import MatchingEngineAgent
+    try:
+        asyncio.run(MatchingEngineAgent().run({"mode": "full"}))
+    except Exception:
+        logger.exception("Matching engine run failed")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    create_tables()
+    logger.info("Database tables created/verified")
+
+    scheduler = None
+    try:
+        from apscheduler.schedulers.background import BackgroundScheduler
+        scheduler = BackgroundScheduler()
+        scheduler.add_job(_run_matching_job, "interval", hours=6, id="matching_engine")
+        scheduler.start()
+        logger.info("Background scheduler started (matching engine: every 6h)")
+    except Exception:
+        logger.exception("Scheduler not started")
+
+    try:
+        yield
+    finally:
+        if scheduler is not None:
+            scheduler.shutdown(wait=False)
+            logger.info("Scheduler shut down")
+
+
 app = FastAPI(
     title="Placements Agent System API",
     description="AI-powered multi-agent platform for college placement automation.",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc",
+    lifespan=lifespan,
 )
 
-_FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
-# Build allowed origins: always include localhost dev URLs + any configured FRONTEND_URL
-_allowed_origins = list(filter(None, [
-    "http://localhost:5173",
-    "http://localhost:3000",
-    "http://localhost:4173",
-    _FRONTEND_URL if _FRONTEND_URL.startswith("http") else None,
-]))
+def _build_allowed_origins() -> list[str]:
+    """
+    Build CORS allowed origins.
+
+    CORS_ORIGINS (comma-separated) takes precedence. Falls back to
+    FRONTEND_URL + localhost dev URLs.
+    """
+    raw = os.getenv("CORS_ORIGINS", "").strip()
+    if raw:
+        return [o.strip() for o in raw.split(",") if o.strip()]
+
+    origins = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:4173",
+    ]
+    frontend_url = os.getenv("FRONTEND_URL", "").strip()
+    if frontend_url.startswith("http"):
+        origins.append(frontend_url)
+    return origins
+
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=_allowed_origins,
+    allow_origins=_build_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def on_startup():
-    create_tables()
-    print("✓ Database tables created/verified")
-
-    # Schedule periodic matching engine (every 6 hours)
-    try:
-        from apscheduler.schedulers.background import BackgroundScheduler
-        import asyncio
-
-        def run_matching():
-            from agents.matching_engine.agent import MatchingEngineAgent
-            loop = asyncio.new_event_loop()
-            agent = MatchingEngineAgent()
-            loop.run_until_complete(agent.run({"mode": "full"}))
-            loop.close()
-
-        scheduler = BackgroundScheduler()
-        scheduler.add_job(run_matching, "interval", hours=6, id="matching_engine")
-        scheduler.start()
-        print("✓ Background scheduler started (matching engine: every 6h)")
-    except Exception as e:
-        print(f"  Scheduler not started: {e}")
 
 
 # ── Versioned API routes ────────────────────────────────────────────────────────

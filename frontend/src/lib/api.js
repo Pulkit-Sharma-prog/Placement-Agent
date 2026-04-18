@@ -1,6 +1,9 @@
 import axios from 'axios'
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api/v1'
+// Default to a relative path so the Vite dev proxy handles routing in dev
+// and same-origin deploys work in prod. Override with VITE_API_BASE_URL
+// when the frontend and backend are hosted on different origins.
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || '/api/v1'
 
 const api = axios.create({
   baseURL: BASE_URL,

@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
+import { useState } from 'react'
+import { Menu } from 'lucide-react'
 import { useAuthStore } from './store/authStore'
 import Sidebar from './components/layout/Sidebar'
 
@@ -60,12 +62,50 @@ function ProtectedRoute({ children, allowedRoles }) {
 }
 
 function AppLayout({ children }) {
+  const [drawerOpen, setDrawerOpen] = useState(false)
+
   return (
     <div className="flex min-h-screen" style={{ background: 'var(--bg-base)' }}>
-      <Sidebar />
-      <main className="flex-1 ml-[260px] p-6 min-h-screen overflow-y-auto">
-        {children}
-      </main>
+      <Sidebar open={drawerOpen} onClose={() => setDrawerOpen(false)} />
+
+      <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile top bar with hamburger (hidden on md+) */}
+        <header
+          className="md:hidden sticky top-0 z-30 flex items-center gap-3 px-4 h-12"
+          style={{
+            background: 'var(--bg-glass)',
+            backdropFilter: 'saturate(180%) blur(30px)',
+            WebkitBackdropFilter: 'saturate(180%) blur(30px)',
+            borderBottom: '1px solid var(--separator)',
+            paddingTop: 'env(safe-area-inset-top)',
+            height: `calc(48px + env(safe-area-inset-top))`,
+          }}
+        >
+          <button
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open menu"
+            className="p-2 -ml-2 rounded-lg transition-colors hover:bg-white/5"
+            style={{ color: 'var(--text-primary)' }}
+          >
+            <Menu size={20} />
+          </button>
+          <span
+            className="text-[15px] font-semibold"
+            style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}
+          >
+            PlacementsAI
+          </span>
+        </header>
+
+        <main
+          className="flex-1 p-4 md:p-6 min-h-0 overflow-y-auto"
+          style={{
+            paddingBottom: `max(16px, env(safe-area-inset-bottom))`,
+          }}
+        >
+          {children}
+        </main>
+      </div>
     </div>
   )
 }
