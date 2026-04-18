@@ -21,6 +21,7 @@ from slowapi.errors import RateLimitExceeded
 
 from api.limiter import limiter
 from api.routes import admin, analytics, applications, auth, jobs, recruiters, students
+from database.bootstrap import ensure_demo_accounts
 from database.connection import create_tables
 
 logger = logging.getLogger("placements.api")
@@ -41,6 +42,7 @@ async def lifespan(app: FastAPI):
     # Startup
     create_tables()
     logger.info("Database tables created/verified")
+    ensure_demo_accounts()
 
     scheduler = None
     try:
