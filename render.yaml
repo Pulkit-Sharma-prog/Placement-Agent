@@ -3,7 +3,12 @@ services:
     name: placements-agent-api
     runtime: python
     rootDir: backend
-    buildCommand: pip install -r ../requirements.txt && python -m spacy download en_core_web_sm
+    buildCommand: |
+      pip install -r ../requirements.txt
+      for i in 1 2 3; do
+        python -m spacy download en_core_web_sm && break
+        echo "spacy download attempt $i failed, retrying in 10s..." && sleep 10
+      done || echo "spacy model download failed after 3 attempts — resume parser will fall back to regex-only name extraction"
     startCommand: uvicorn api.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: ENV
