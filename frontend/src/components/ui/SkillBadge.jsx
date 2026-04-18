@@ -9,9 +9,9 @@ export default function SkillBadge({ skill, size = 'sm', highlight = false }) {
     <span
       className={`inline-flex items-center rounded-full font-medium transition-colors ${sizes[size]}`}
       style={{
-        background: highlight ? 'rgba(108,99,255,0.25)' : 'rgba(255,255,255,0.08)',
-        border: `1px solid ${highlight ? 'rgba(108,99,255,0.5)' : 'var(--border-subtle)'}`,
-        color: highlight ? '#6C63FF' : 'var(--text-secondary)',
+        background: highlight ? 'rgba(10,132,255,0.25)' : 'rgba(255,255,255,0.08)',
+        border: `1px solid ${highlight ? 'rgba(10,132,255,0.5)' : 'var(--border-subtle)'}`,
+        color: highlight ? '#0A84FF' : 'var(--text-secondary)',
       }}
     >
       {skill}

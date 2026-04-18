@@ -11,9 +11,16 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
 
-SECRET_KEY = os.getenv("SECRET_KEY", "placements-agent-secret-key-2024")
+_DEFAULT_SECRET = "placements-agent-secret-key-2024"
+SECRET_KEY = os.getenv("SECRET_KEY", _DEFAULT_SECRET)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_HOURS = 24
+
+# Refuse to boot in prod with the default dev secret.
+if os.getenv("ENV", "development").lower() == "production" and SECRET_KEY == _DEFAULT_SECRET:
+    raise RuntimeError(
+        "SECRET_KEY must be set to a non-default value when ENV=production."
+    )
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer()

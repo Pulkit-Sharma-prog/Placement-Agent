@@ -5,7 +5,7 @@ export default function MatchScoreRing({ score = 0, size = 60, strokeWidth = 5 }
   const circumference = 2 * Math.PI * radius
   const offset = circumference - (score / 100) * circumference
 
-  const color = score >= 80 ? '#4ADE80' : score >= 60 ? '#3ECFCF' : score >= 40 ? '#FF8C42' : '#F87171'
+  const color = score >= 80 ? '#32D74B' : score >= 60 ? '#64D2FF' : score >= 40 ? '#FF9F0A' : '#FF453A'
 
   return (
     <div className="relative inline-flex items-center justify-center" style={{ width: size, height: size }}>

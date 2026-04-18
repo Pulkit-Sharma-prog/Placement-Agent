@@ -80,7 +80,7 @@ export default function StudentDashboard() {
           animate={{ opacity: 1, y: 0 }}
           className="rounded-2xl p-6"
           style={{
-            background: 'radial-gradient(ellipse at 60% 40%, rgba(108,99,255,0.25) 0%, transparent 60%), var(--bg-surface)',
+            background: 'radial-gradient(ellipse at 60% 40%, rgba(10,132,255,0.25) 0%, transparent 60%), var(--bg-surface)',
             border: '1px solid var(--border-subtle)',
           }}
         >
@@ -117,7 +117,7 @@ export default function StudentDashboard() {
           >
             <div
               className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-              style={{ background: 'rgba(108,99,255,0.15)' }}
+              style={{ background: 'rgba(10,132,255,0.15)' }}
             >
               <Upload size={22} style={{ color: 'var(--purple)' }} />
             </div>
@@ -138,26 +138,26 @@ export default function StudentDashboard() {
             label="Best Match"
             value={hasResume ? Math.round(bestScore) : '—'}
             suffix={hasResume ? '%' : ''}
-            color="#6C63FF"
+            color="#0A84FF"
           />
           <StatCard
             icon={FileText}
             label="Applications"
             value={apps.length}
-            color="#3ECFCF"
+            color="#64D2FF"
           />
           <StatCard
             icon={Calendar}
             label="Interviews"
             value={interviewCount}
-            color="#FF6B9D"
+            color="#FF375F"
           />
           <StatCard
             icon={Trophy}
             label="Profile Score"
             value={hasResume ? Math.round(profile?.profile_score || 0) : '—'}
             suffix={hasResume ? '' : ''}
-            color="#FF8C42"
+            color="#FF9F0A"
           />
         </StatCardRow>
 
@@ -226,13 +226,13 @@ export default function StudentDashboard() {
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <p className="text-xs font-medium" style={{ color: '#3ECFCF' }}>
+                        <p className="text-xs font-medium" style={{ color: '#64D2FF' }}>
                           {m.job.ctc_max ? `₹${(m.job.ctc_max / 100000).toFixed(0)}L` : 'Competitive'}
                         </p>
                         <button
                           onClick={() => navigate('/student/jobs')}
                           className="mt-1.5 text-xs px-3 py-1 rounded-lg font-medium"
-                          style={{ background: 'rgba(108,99,255,0.2)', color: '#6C63FF' }}
+                          style={{ background: 'rgba(10,132,255,0.2)', color: '#0A84FF' }}
                         >
                           Apply
                         </button>
@@ -363,7 +363,7 @@ export default function StudentDashboard() {
                         <span className="text-[10px] font-medium" style={{ color: 'var(--text-muted)' }}>
                           Skill coverage
                         </span>
-                        <span className="text-[10px] font-semibold" style={{ color: coveragePct >= 70 ? '#4ADE80' : coveragePct >= 40 ? '#FFC837' : '#FF6B9D' }}>
+                        <span className="text-[10px] font-semibold" style={{ color: coveragePct >= 70 ? '#32D74B' : coveragePct >= 40 ? '#FFC837' : '#FF375F' }}>
                           {overlapCount}/{requiredCount} skills
                         </span>
                       </div>
@@ -372,7 +372,7 @@ export default function StudentDashboard() {
                           className="h-full rounded-full transition-all"
                           style={{
                             width: `${coveragePct}%`,
-                            background: coveragePct >= 70 ? '#4ADE80' : coveragePct >= 40 ? 'var(--gradient-aurora)' : '#FF6B9D',
+                            background: coveragePct >= 70 ? '#32D74B' : coveragePct >= 40 ? 'var(--gradient-aurora)' : '#FF375F',
                           }}
                         />
                       </div>
@@ -382,13 +382,13 @@ export default function StudentDashboard() {
                     <div className="flex flex-wrap gap-1">
                       {(m.skill_overlap || []).slice(0, 3).map(s => (
                         <span key={s} className="text-[10px] px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(108,99,255,0.12)', color: '#6C63FF' }}>
+                          style={{ background: 'rgba(10,132,255,0.12)', color: '#0A84FF' }}>
                           {s}
                         </span>
                       ))}
                       {(m.missing_skills || []).slice(0, 2).map(s => (
                         <span key={s} className="text-[10px] px-2 py-0.5 rounded-full"
-                          style={{ background: 'rgba(255,107,157,0.1)', color: '#FF6B9D' }}>
+                          style={{ background: 'rgba(255,55,95,0.1)', color: '#FF375F' }}>
                           +{s}
                         </span>
                       ))}

@@ -1,65 +1,204 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
 @import "tailwindcss";
 
+/* ──────────────────────────────────────────────────────────────────────────
+   macOS-inspired design tokens.
+
+   Typography: SF Pro system font stack. Falls back to Segoe UI on Windows
+   and Roboto on Android so the app still feels native there.
+
+   Colors: Apple's semantic system palette (systemBlue, systemPurple, etc.)
+   Dark is the default; light mode kicks in automatically on users whose
+   OS is set to light via `prefers-color-scheme`.
+
+   The public CSS class API (glass-card, btn-aurora, btn-glass, aurora-text,
+   skeleton) is preserved so existing pages don't need to be rewritten — they
+   are just reskinned.
+   ──────────────────────────────────────────────────────────────────────── */
+
 :root {
-  --bg-base:     #0A0F1E;
-  --bg-surface:  #0F1629;
-  --bg-elevated: #151E38;
-  --bg-glass:    rgba(255,255,255,0.05);
-  --gradient-aurora: linear-gradient(135deg, #6C63FF 0%, #3ECFCF 50%, #FF6B9D 100%);
-  --purple:  #6C63FF;
-  --teal:    #3ECFCF;
-  --pink:    #FF6B9D;
-  --orange:  #FF8C42;
-  --green:   #4ADE80;
-  --red:     #F87171;
-  --text-primary:   #F0F4FF;
-  --text-secondary: #94A3B8;
-  --text-muted:     #475569;
-  --border-subtle: rgba(255,255,255,0.08);
-  --border-active: rgba(108,99,255,0.5);
-  --font-heading: 'Space Grotesk', sans-serif;
-  --font-body:    'Inter', sans-serif;
+  /* ── Apple system fonts ────────────────────────────────────────────── */
+  --font-body: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro",
+               "Segoe UI", Roboto, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro",
+                  "Segoe UI", Roboto, system-ui, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "Menlo", "Cascadia Mono",
+               "Roboto Mono", Consolas, monospace;
+
+  /* ── macOS system colors (Dark appearance defaults) ────────────────── */
+  --system-blue:    #0A84FF;
+  --system-indigo:  #5E5CE6;
+  --system-purple:  #BF5AF2;
+  --system-pink:    #FF375F;
+  --system-red:     #FF453A;
+  --system-orange:  #FF9F0A;
+  --system-yellow:  #FFD60A;
+  --system-green:   #32D74B;
+  --system-teal:    #64D2FF;
+  --system-gray:    #98989D;
+
+  /* ── Surfaces (Dark appearance) ────────────────────────────────────── */
+  --bg-base:     #1E1E1E;   /* window background */
+  --bg-surface:  #2C2C2E;   /* secondary grouped */
+  --bg-elevated: #3A3A3C;   /* tertiary / controls */
+  --bg-glass:    rgba(40, 40, 45, 0.72);  /* vibrancy / sidebar material */
+
+  --text-primary:   rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(235, 235, 245, 0.60);
+  --text-muted:     rgba(235, 235, 245, 0.30);
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-active: rgba(10, 132, 255, 0.55);
+  --separator:     rgba(255, 255, 255, 0.10);
+
+  /* ── Accent aliases kept for legacy class names ────────────────────── */
+  --purple: var(--system-purple);
+  --teal:   var(--system-teal);
+  --pink:   var(--system-pink);
+  --orange: var(--system-orange);
+  --green:  var(--system-green);
+  --red:    var(--system-red);
+
+  /* macOS accent gradient — system blue → purple → pink */
+  --gradient-aurora: linear-gradient(135deg, #0A84FF 0%, #BF5AF2 50%, #FF375F 100%);
+
+  /* Radii — macOS uses ~10–14px everywhere */
+  --r-sm: 8px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-xl: 18px;
+}
+
+/* ── Light appearance (triggered when the OS is in light mode) ─────────── */
+@media (prefers-color-scheme: light) {
+  :root {
+    --system-blue:    #007AFF;
+    --system-indigo:  #5856D6;
+    --system-purple:  #AF52DE;
+    --system-pink:    #FF2D55;
+    --system-red:     #FF3B30;
+    --system-orange:  #FF9500;
+    --system-yellow:  #FFCC00;
+    --system-green:   #34C759;
+    --system-teal:    #5AC8FA;
+    --system-gray:    #8E8E93;
+
+    --bg-base:     #F5F5F7;   /* macOS window background */
+    --bg-surface:  #FFFFFF;
+    --bg-elevated: #FFFFFF;
+    --bg-glass:    rgba(245, 245, 247, 0.78);
+
+    --text-primary:   rgba(0, 0, 0, 0.88);
+    --text-secondary: rgba(60, 60, 67, 0.60);
+    --text-muted:     rgba(60, 60, 67, 0.30);
+
+    --border-subtle: rgba(0, 0, 0, 0.08);
+    --border-active: rgba(0, 122, 255, 0.55);
+    --separator:     rgba(60, 60, 67, 0.18);
+
+    --gradient-aurora: linear-gradient(135deg, #007AFF 0%, #AF52DE 50%, #FF2D55 100%);
+  }
 }
 
 * { box-sizing: border-box; }
 
 html, body, #root { height: 100%; margin: 0; padding: 0; }
 
+html {
+  /* Prevent iOS Safari from zooming text on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.47059;           /* matches Apple's body leading */
+  letter-spacing: -0.016em;       /* SF tracking */
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+
+  /* iOS safe-area aware padding — noop on Android/desktop */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+           env(safe-area-inset-bottom) env(safe-area-inset-left);
 }
 
-h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: -0.022em;
+  font-weight: 600;
+}
+
+h1 { letter-spacing: -0.028em; }
+
+code, kbd, pre, samp { font-family: var(--font-mono); }
+
+/* Prevent iOS from inflating tiny form font sizes */
+input, textarea, select, button {
+  font-family: inherit;
+  font-size: inherit;
+}
+@supports (-webkit-touch-callout: none) {
+  input, textarea, select { font-size: 16px; }
+}
+
+/* Touch targets — Apple HIG minimum is 44×44pt on mobile */
+@media (pointer: coarse) {
+  button, a[role="button"], .btn-aurora, .btn-glass {
+    min-height: 44px;
+  }
+}
+
+/* ── Materials / vibrancy ──────────────────────────────────────────────── */
 
 .glass-card {
   background: var(--bg-glass);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: saturate(180%) blur(30px);
+  -webkit-backdrop-filter: saturate(180%) blur(30px);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius: var(--r-lg);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .glass-card:hover {
   border-color: var(--border-active);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 32px rgba(108,99,255,0.15);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.18);
+}
+
+.glass-card-solid {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-lg);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.glass-card-solid:hover {
+  border-color: var(--border-active);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
 .aurora-text {
   background: var(--gradient-aurora);
   -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-surface); }
-::-webkit-scrollbar-thumb { background: rgba(108,99,255,0.4); border-radius: 3px; }
+/* ── Scrollbars (macOS overlay style) ──────────────────────────────────── */
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.4);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(128, 128, 128, 0.6); background-clip: padding-box; }
+
+/* ── Skeleton shimmer ──────────────────────────────────────────────────── */
 
 @keyframes shimmer {
   0%   { background-position: -200% 0; }
@@ -70,86 +209,84 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
   background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-elevated) 50%, var(--bg-surface) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.5s infinite;
-  border-radius: 8px;
+  border-radius: var(--r-sm);
 }
 
-/* ── Button styles ─────────────────────────────────────────────────────── */
+/* ── Buttons ───────────────────────────────────────────────────────────── */
 
+/* Filled accent button — macOS "prominent" style */
 .btn-aurora {
-  background: var(--gradient-aurora);
-  color: white;
-  font-weight: 600;
-  border-radius: 12px;
-  transition: all 0.2s ease;
+  background: var(--system-blue);
+  color: #fff;
+  font-weight: 590;                /* SF Semibold */
+  letter-spacing: -0.01em;
+  border-radius: var(--r-md);
+  padding: 8px 16px;
+  border: none;
+  transition: filter 0.15s ease, transform 0.05s ease, box-shadow 0.2s ease;
   position: relative;
   overflow: hidden;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
 }
-.btn-aurora:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(108,99,255,0.3);
+.btn-aurora:hover { filter: brightness(1.08); }
+.btn-aurora:active { transform: scale(0.98); filter: brightness(0.96); }
+.btn-aurora:focus-visible { outline: 3px solid var(--border-active); outline-offset: 2px; }
+
+/* Gradient variant — opt-in via .btn-aurora.btn-gradient */
+.btn-aurora.btn-gradient {
+  background: var(--gradient-aurora);
 }
-.btn-aurora::after {
+.btn-aurora.btn-gradient::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
-.btn-aurora:hover::after {
-  transform: translateX(100%);
-}
+.btn-aurora.btn-gradient:hover::after { transform: translateX(100%); }
 
+/* Secondary / gray button — macOS "default" material */
 .btn-glass {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  color: var(--text-primary);
-  border-radius: 12px;
-  transition: all 0.2s ease;
-}
-.btn-glass:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: rgba(108,99,255,0.3);
-}
-
-/* ── Glass card variants ──────────────────────────────────────────────── */
-
-.glass-card-solid {
-  background: var(--bg-surface);
+  background: rgba(120, 120, 128, 0.16);
   border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  color: var(--text-primary);
+  font-weight: 510;
+  letter-spacing: -0.01em;
+  border-radius: var(--r-md);
+  padding: 8px 16px;
+  transition: background-color 0.15s ease, transform 0.05s ease;
+  cursor: pointer;
 }
-.glass-card-solid:hover {
-  border-color: var(--border-active);
-  box-shadow: 0 4px 20px rgba(108,99,255,0.1);
-}
+.btn-glass:hover { background: rgba(120, 120, 128, 0.28); }
+.btn-glass:active { transform: scale(0.98); }
+.btn-glass:focus-visible { outline: 3px solid var(--border-active); outline-offset: 2px; }
 
-/* ── Stat glow effect ─────────────────────────────────────────────────── */
+/* ── Stat glow (kept for compat) ───────────────────────────────────────── */
 
-.stat-glow {
-  position: relative;
-}
+.stat-glow { position: relative; }
 .stat-glow::before {
   content: '';
   position: absolute;
   inset: -1px;
-  border-radius: 16px;
+  border-radius: var(--r-lg);
   padding: 1px;
-  background: linear-gradient(135deg, rgba(108,99,255,0.3), transparent, rgba(62,207,207,0.2));
+  background: linear-gradient(135deg, rgba(10, 132, 255, 0.35), transparent, rgba(191, 90, 242, 0.25));
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask-composite: exclude;
   -webkit-mask-composite: xor;
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.2s ease;
 }
 .stat-glow:hover::before { opacity: 1; }
 
-/* ── Responsive adjustments ───────────────────────────────────────────── */
+/* ── Responsive + accessibility ────────────────────────────────────────── */
 
 @media (max-width: 768px) {
+  body { font-size: 16px; }  /* iOS readability */
   .glass-card:hover { transform: none; }
 }
 
@@ -159,3 +296,7 @@ h1,h2,h3,h4,h5,h6 { font-family: var(--font-heading); }
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Utility: hide native scrollbar but keep functionality (nav drawers) */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }

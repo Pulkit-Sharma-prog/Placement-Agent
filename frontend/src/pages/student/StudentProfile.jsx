@@ -16,16 +16,16 @@ import { SkeletonCard } from '../../components/ui/SkeletonLoader'
 
 // ─── Colour palette per category ────────────────────────────────────────────
 const CAT_COLORS = {
-  'Programming Languages': { bg: 'rgba(108,99,255,0.12)', text: '#6C63FF', border: 'rgba(108,99,255,0.25)' },
-  'Web Development':       { bg: 'rgba(62,207,207,0.12)', text: '#3ECFCF', border: 'rgba(62,207,207,0.25)' },
-  'Mobile Development':    { bg: 'rgba(255,140,66,0.12)', text: '#FF8C42', border: 'rgba(255,140,66,0.25)' },
-  'Databases':             { bg: 'rgba(255,107,157,0.12)', text: '#FF6B9D', border: 'rgba(255,107,157,0.25)' },
+  'Programming Languages': { bg: 'rgba(10,132,255,0.12)', text: '#0A84FF', border: 'rgba(10,132,255,0.25)' },
+  'Web Development':       { bg: 'rgba(100,210,255,0.12)', text: '#64D2FF', border: 'rgba(100,210,255,0.25)' },
+  'Mobile Development':    { bg: 'rgba(255,140,66,0.12)', text: '#FF9F0A', border: 'rgba(255,140,66,0.25)' },
+  'Databases':             { bg: 'rgba(255,55,95,0.12)', text: '#FF375F', border: 'rgba(255,55,95,0.25)' },
   'Cloud & DevOps':        { bg: 'rgba(255,200,55,0.12)', text: '#FFC837', border: 'rgba(255,200,55,0.25)' },
-  'Data Science & AI':     { bg: 'rgba(108,99,255,0.15)', text: '#A78BFA', border: 'rgba(167,139,250,0.3)' },
-  'Computer Science':      { bg: 'rgba(62,207,207,0.10)', text: '#5EEAD4', border: 'rgba(94,234,212,0.25)' },
+  'Data Science & AI':     { bg: 'rgba(10,132,255,0.15)', text: '#A78BFA', border: 'rgba(167,139,250,0.3)' },
+  'Computer Science':      { bg: 'rgba(100,210,255,0.10)', text: '#5EEAD4', border: 'rgba(94,234,212,0.25)' },
   'Tools & Platforms':     { bg: 'rgba(255,140,66,0.10)', text: '#FDBA74', border: 'rgba(253,186,116,0.25)' },
-  'Testing & QA':          { bg: 'rgba(134,239,172,0.12)', text: '#4ADE80', border: 'rgba(74,222,128,0.25)' },
-  'Security':              { bg: 'rgba(248,113,113,0.12)', text: '#F87171', border: 'rgba(248,113,113,0.25)' },
+  'Testing & QA':          { bg: 'rgba(134,239,172,0.12)', text: '#32D74B', border: 'rgba(74,222,128,0.25)' },
+  'Security':              { bg: 'rgba(248,113,113,0.12)', text: '#FF453A', border: 'rgba(248,113,113,0.25)' },
   'Embedded & Hardware':   { bg: 'rgba(156,163,175,0.12)', text: '#9CA3AF', border: 'rgba(156,163,175,0.25)' },
   'Design':                { bg: 'rgba(244,114,182,0.12)', text: '#F472B6', border: 'rgba(244,114,182,0.25)' },
   'Methodologies':         { bg: 'rgba(96,165,250,0.12)', text: '#60A5FA', border: 'rgba(96,165,250,0.25)' },
@@ -108,8 +108,8 @@ function ResumeParsingLoader() {
       transition={{ duration: 0.3 }}
       className="w-full rounded-2xl overflow-hidden relative"
       style={{
-        background: 'linear-gradient(135deg, rgba(108,99,255,0.10) 0%, rgba(62,207,207,0.07) 50%, rgba(108,99,255,0.08) 100%)',
-        border: '1px solid rgba(108,99,255,0.25)',
+        background: 'linear-gradient(135deg, rgba(10,132,255,0.10) 0%, rgba(100,210,255,0.07) 50%, rgba(10,132,255,0.08) 100%)',
+        border: '1px solid rgba(10,132,255,0.25)',
         padding: '28px 24px',
       }}
     >
@@ -117,13 +117,13 @@ function ResumeParsingLoader() {
       <div style={{
         position: 'absolute', top: '-40px', left: '10%',
         width: 180, height: 180, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(10,132,255,0.18) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
       <div style={{
         position: 'absolute', bottom: '-30px', right: '15%',
         width: 140, height: 140, borderRadius: '50%',
-        background: 'radial-gradient(circle, rgba(62,207,207,0.15) 0%, transparent 70%)',
+        background: 'radial-gradient(circle, rgba(100,210,255,0.15) 0%, transparent 70%)',
         pointerEvents: 'none',
       }} />
 
@@ -133,18 +133,18 @@ function ResumeParsingLoader() {
         <div className="relative flex-shrink-0" style={{ width: 44, height: 52 }}>
           <svg viewBox="0 0 44 52" fill="none" width="44" height="52">
             <rect x="2" y="2" width="36" height="48" rx="5"
-              fill="rgba(108,99,255,0.12)" stroke="rgba(108,99,255,0.5)" strokeWidth="1.5"/>
-            <line x1="10" y1="16" x2="34" y2="16" stroke="rgba(108,99,255,0.35)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="10" y1="23" x2="30" y2="23" stroke="rgba(108,99,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="10" y1="30" x2="32" y2="30" stroke="rgba(108,99,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="10" y1="37" x2="26" y2="37" stroke="rgba(108,99,255,0.2)"  strokeWidth="1.5" strokeLinecap="round"/>
+              fill="rgba(10,132,255,0.12)" stroke="rgba(10,132,255,0.5)" strokeWidth="1.5"/>
+            <line x1="10" y1="16" x2="34" y2="16" stroke="rgba(10,132,255,0.35)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="23" x2="30" y2="23" stroke="rgba(10,132,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="30" x2="32" y2="30" stroke="rgba(10,132,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
+            <line x1="10" y1="37" x2="26" y2="37" stroke="rgba(10,132,255,0.2)"  strokeWidth="1.5" strokeLinecap="round"/>
           </svg>
           {/* scanner line */}
           <motion.div
             style={{
               position: 'absolute', left: 4, right: 4, height: 2,
-              background: 'linear-gradient(90deg, transparent, #6C63FF, #3ECFCF, transparent)',
-              borderRadius: 2, boxShadow: '0 0 8px rgba(108,99,255,0.8)',
+              background: 'linear-gradient(90deg, transparent, #0A84FF, #64D2FF, transparent)',
+              borderRadius: 2, boxShadow: '0 0 8px rgba(10,132,255,0.8)',
               top: 6,
             }}
             animate={{ top: [6, 44, 6] }}
@@ -166,7 +166,7 @@ function ResumeParsingLoader() {
           {[0, 1, 2].map(i => (
             <motion.div
               key={i}
-              style={{ width: 5, height: 5, borderRadius: '50%', background: '#6C63FF' }}
+              style={{ width: 5, height: 5, borderRadius: '50%', background: '#0A84FF' }}
               animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.1, 0.8] }}
               transition={{ duration: 1.2, repeat: Infinity, delay: i * 0.2 }}
             />
@@ -184,8 +184,8 @@ function ResumeParsingLoader() {
           <motion.div
             style={{
               height: '100%', borderRadius: 999,
-              background: 'linear-gradient(90deg, #6C63FF, #3ECFCF)',
-              boxShadow: '0 0 12px rgba(108,99,255,0.6)',
+              background: 'linear-gradient(90deg, #0A84FF, #64D2FF)',
+              boxShadow: '0 0 12px rgba(10,132,255,0.6)',
               width: `${progress}%`,
             }}
             transition={{ duration: 0.4 }}
@@ -224,17 +224,17 @@ function ResumeParsingLoader() {
                   width: 32, height: 32, borderRadius: '50%', flexShrink: 0,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   background: done
-                    ? 'rgba(62,207,207,0.15)'
+                    ? 'rgba(100,210,255,0.15)'
                     : active
-                      ? 'rgba(108,99,255,0.2)'
+                      ? 'rgba(10,132,255,0.2)'
                       : 'rgba(255,255,255,0.04)',
                   border: done
-                    ? '1px solid rgba(62,207,207,0.4)'
+                    ? '1px solid rgba(100,210,255,0.4)'
                     : active
-                      ? '1px solid rgba(108,99,255,0.5)'
+                      ? '1px solid rgba(10,132,255,0.5)'
                       : '1px solid rgba(255,255,255,0.08)',
                   transition: 'all 0.4s ease',
-                  boxShadow: active ? '0 0 14px rgba(108,99,255,0.4)' : 'none',
+                  boxShadow: active ? '0 0 14px rgba(10,132,255,0.4)' : 'none',
                 }}
               >
                 {done ? (
@@ -242,14 +242,14 @@ function ResumeParsingLoader() {
                     initial={{ scale: 0 }} animate={{ scale: 1 }}
                     transition={{ type: 'spring', stiffness: 400, damping: 15 }}
                   >
-                    <CheckCircle size={15} style={{ color: '#3ECFCF' }} />
+                    <CheckCircle size={15} style={{ color: '#64D2FF' }} />
                   </motion.div>
                 ) : active ? (
                   <motion.div
                     animate={{ rotate: 360 }}
                     transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
                   >
-                    <Icon size={14} style={{ color: '#6C63FF' }} />
+                    <Icon size={14} style={{ color: '#0A84FF' }} />
                   </motion.div>
                 ) : (
                   <Icon size={14} style={{ color: 'rgba(255,255,255,0.2)' }} />
@@ -259,7 +259,7 @@ function ResumeParsingLoader() {
               {/* Text */}
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium leading-none"
-                  style={{ color: done ? '#3ECFCF' : active ? 'var(--text-primary)' : 'var(--text-muted)' }}>
+                  style={{ color: done ? '#64D2FF' : active ? 'var(--text-primary)' : 'var(--text-muted)' }}>
                   {s.label}
                 </p>
                 {active && (
@@ -278,14 +278,14 @@ function ResumeParsingLoader() {
                 <motion.span
                   initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }}
                   className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
-                  style={{ background: 'rgba(62,207,207,0.12)', color: '#3ECFCF' }}
+                  style={{ background: 'rgba(100,210,255,0.12)', color: '#64D2FF' }}
                 >
                   done
                 </motion.span>
               )}
               {active && (
                 <span className="text-xs px-2 py-0.5 rounded-full flex-shrink-0"
-                  style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF' }}>
+                  style={{ background: 'rgba(10,132,255,0.15)', color: '#0A84FF' }}>
                   running
                 </span>
               )}
@@ -355,7 +355,7 @@ export default function StudentProfile() {
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>Resume</h2>
             {hasResume && (
-              <span className="flex items-center gap-1.5 text-xs font-medium" style={{ color: '#3ECFCF' }}>
+              <span className="flex items-center gap-1.5 text-xs font-medium" style={{ color: '#64D2FF' }}>
                 <CheckCircle size={14} /> Parsed & ready
               </span>
             )}
@@ -373,7 +373,7 @@ export default function StudentProfile() {
                 className="flex flex-col items-center justify-center w-full h-36 rounded-xl cursor-pointer transition-all"
                 style={{
                   border: `2px dashed ${dragOver ? 'var(--purple)' : 'var(--border-subtle)'}`,
-                  background: dragOver ? 'rgba(108,99,255,0.08)' : 'var(--bg-elevated)',
+                  background: dragOver ? 'rgba(10,132,255,0.08)' : 'var(--bg-elevated)',
                 }}
                 onDragOver={e => { e.preventDefault(); setDragOver(true) }}
                 onDragLeave={() => setDragOver(false)}
@@ -398,7 +398,7 @@ export default function StudentProfile() {
             initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
             className="glass-card p-6 flex items-start gap-4"
           >
-            <AlertCircle size={20} style={{ color: '#FF8C42', flexShrink: 0, marginTop: 2 }} />
+            <AlertCircle size={20} style={{ color: '#FF9F0A', flexShrink: 0, marginTop: 2 }} />
             <div>
               <p className="font-medium">No resume uploaded yet</p>
               <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>
@@ -470,7 +470,7 @@ export default function StudentProfile() {
                         href={parsed.portfolio}
                         target="_blank" rel="noreferrer"
                         className="flex items-center gap-1 text-xs hover:opacity-80 transition-opacity"
-                        style={{ color: '#3ECFCF' }}
+                        style={{ color: '#64D2FF' }}
                       >
                         <Globe size={11} /> Portfolio
                       </a>
@@ -546,7 +546,7 @@ export default function StudentProfile() {
                     <span
                       key={s}
                       className="text-xs px-2.5 py-1 rounded-full font-medium"
-                      style={{ background: 'rgba(255,107,157,0.12)', color: '#FF6B9D', border: '1px solid rgba(255,107,157,0.25)' }}
+                      style={{ background: 'rgba(255,55,95,0.12)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.25)' }}
                     >
                       + {s}
                     </span>
@@ -579,7 +579,7 @@ export default function StudentProfile() {
                             </span>
                           )}
                           {edu.cgpa && (
-                            <span className="text-xs font-semibold" style={{ color: '#3ECFCF' }}>
+                            <span className="text-xs font-semibold" style={{ color: '#64D2FF' }}>
                               CGPA {edu.cgpa}
                             </span>
                           )}
@@ -608,7 +608,7 @@ export default function StudentProfile() {
                         </div>
                         {(exp.start_date || exp.end_date) && (
                           <span className="text-xs flex-shrink-0 px-2 py-0.5 rounded-lg"
-                            style={{ background: 'rgba(108,99,255,0.1)', color: 'var(--purple)' }}>
+                            style={{ background: 'rgba(10,132,255,0.1)', color: 'var(--purple)' }}>
                             {exp.start_date} – {exp.end_date || 'Present'}
                           </span>
                         )}
@@ -630,7 +630,7 @@ export default function StudentProfile() {
                         <div className="flex flex-wrap gap-1 mt-2">
                           {exp.tech_used.map(t => (
                             <span key={t} className="text-xs px-1.5 py-0.5 rounded"
-                              style={{ background: 'rgba(108,99,255,0.1)', color: 'var(--purple)' }}>
+                              style={{ background: 'rgba(10,132,255,0.1)', color: 'var(--purple)' }}>
                               {t}
                             </span>
                           ))}
@@ -662,7 +662,7 @@ export default function StudentProfile() {
                           {proj.live_link && (
                             <a href={proj.live_link} target="_blank" rel="noreferrer"
                               className="flex items-center gap-1 text-xs hover:opacity-80"
-                              style={{ color: '#3ECFCF' }}>
+                              style={{ color: '#64D2FF' }}>
                               <ExternalLink size={11} /> Live
                             </a>
                           )}
@@ -685,7 +685,7 @@ export default function StudentProfile() {
                         <div className="flex flex-wrap gap-1 mt-2">
                           {proj.tech_stack.map(t => (
                             <span key={t} className="text-xs px-1.5 py-0.5 rounded"
-                              style={{ background: 'rgba(62,207,207,0.1)', color: '#3ECFCF' }}>
+                              style={{ background: 'rgba(100,210,255,0.1)', color: '#64D2FF' }}>
                               {t}
                             </span>
                           ))}
@@ -773,7 +773,7 @@ export default function StudentProfile() {
                   {parsed.workshops.map((w, i) => (
                     <li key={i} className="text-sm flex items-start gap-2 p-3 rounded-xl"
                       style={{ background: 'var(--bg-elevated)' }}>
-                      <FlaskConical size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#4ADE80' }} />
+                      <FlaskConical size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#32D74B' }} />
                       <span style={{ color: 'var(--text-secondary)' }}>{w}</span>
                     </li>
                   ))}
@@ -803,7 +803,7 @@ export default function StudentProfile() {
                   {parsed.volunteer.map((v, i) => (
                     <li key={i} className="text-sm flex items-start gap-2 p-3 rounded-xl"
                       style={{ background: 'var(--bg-elevated)' }}>
-                      <Heart size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#F87171' }} />
+                      <Heart size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#FF453A' }} />
                       <span style={{ color: 'var(--text-secondary)' }}>{v}</span>
                     </li>
                   ))}

@@ -15,7 +15,7 @@ function AuroraBackground() {
         className="absolute rounded-full blur-3xl"
         style={{
           width: 600, height: 600, top: '-10%', left: '15%',
-          background: 'radial-gradient(circle, rgba(108,99,255,0.25), transparent 70%)',
+          background: 'radial-gradient(circle, rgba(10,132,255,0.25), transparent 70%)',
         }}
         animate={{ x: [0, 60, -30, 0], y: [0, -40, 20, 0] }}
         transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
@@ -24,7 +24,7 @@ function AuroraBackground() {
         className="absolute rounded-full blur-3xl"
         style={{
           width: 500, height: 500, top: '20%', right: '5%',
-          background: 'radial-gradient(circle, rgba(62,207,207,0.2), transparent 70%)',
+          background: 'radial-gradient(circle, rgba(100,210,255,0.2), transparent 70%)',
         }}
         animate={{ x: [0, -50, 30, 0], y: [0, 30, -50, 0] }}
         transition={{ duration: 22, repeat: Infinity, ease: 'easeInOut' }}
@@ -33,7 +33,7 @@ function AuroraBackground() {
         className="absolute rounded-full blur-3xl"
         style={{
           width: 400, height: 400, bottom: '5%', left: '35%',
-          background: 'radial-gradient(circle, rgba(255,107,157,0.15), transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255,55,95,0.15), transparent 70%)',
         }}
         animate={{ x: [0, 40, -20, 0], y: [0, -30, 40, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
@@ -41,7 +41,7 @@ function AuroraBackground() {
       {/* Grid overlay */}
       <div style={{
         position: 'absolute', inset: 0,
-        backgroundImage: 'linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(10,132,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(10,132,255,0.03) 1px, transparent 1px)',
         backgroundSize: '60px 60px',
       }} />
     </div>
@@ -121,7 +121,7 @@ function StepCard({ number, title, desc, icon: Icon, delay = 0 }) {
         >
           {number}
         </div>
-        <div className="w-px flex-1 mt-2" style={{ background: 'rgba(108,99,255,0.2)' }} />
+        <div className="w-px flex-1 mt-2" style={{ background: 'rgba(10,132,255,0.2)' }} />
       </div>
       <div className="pb-10">
         <div className="flex items-center gap-2 mb-1">
@@ -239,8 +239,8 @@ export default function LandingPage() {
             transition={{ delay: 0.2 }}
             className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{
-              background: 'rgba(108,99,255,0.1)',
-              border: '1px solid rgba(108,99,255,0.3)',
+              background: 'rgba(10,132,255,0.1)',
+              border: '1px solid rgba(10,132,255,0.3)',
               color: 'var(--purple)',
             }}
           >
@@ -346,22 +346,22 @@ export default function LandingPage() {
           <FeatureCard
             icon={FileSearch} title="AI Resume Parser"
             desc="Extracts skills, experience, projects, certifications, patents, and more using NLP — supports PDF and DOCX."
-            color="#6C63FF" delay={0}
+            color="#0A84FF" delay={0}
           />
           <FeatureCard
             icon={Target} title="Smart Matching Engine"
             desc="TF-IDF + cosine similarity computes precise match scores between student profiles and job requirements."
-            color="#3ECFCF" delay={0.1}
+            color="#64D2FF" delay={0.1}
           />
           <FeatureCard
             icon={Brain} title="Student Profiling"
             desc="Normalises 300+ skills across 15 categories, builds skill radar charts, and identifies learning gaps."
-            color="#FF6B9D" delay={0.2}
+            color="#FF375F" delay={0.2}
           />
           <FeatureCard
             icon={Briefcase} title="Job Processing"
             desc="Classifies seniority, role category, and extracts required vs. preferred skills from any job description."
-            color="#FF8C42" delay={0.3}
+            color="#FF9F0A" delay={0.3}
           />
           <FeatureCard
             icon={Users} title="Recruiter Management"
@@ -371,7 +371,7 @@ export default function LandingPage() {
           <FeatureCard
             icon={BarChart3} title="Analytics Dashboard"
             desc="Real-time placement funnels, branch breakdowns, skills demand trends, and hiring company insights."
-            color="#4ADE80" delay={0.5}
+            color="#32D74B" delay={0.5}
           />
         </div>
       </section>
@@ -429,21 +429,21 @@ export default function LandingPage() {
             icon={GraduationCap} role="Students"
             tagline="Land your dream placement"
             features={['AI resume parsing', 'Skill-based job matching', 'Application tracking', 'Personalised recommendations']}
-            gradient="rgba(108,99,255,0.15), rgba(62,207,207,0.08)"
+            gradient="rgba(10,132,255,0.15), rgba(100,210,255,0.08)"
             path="/register" delay={0}
           />
           <RoleCard
             icon={Building2} role="Recruiters"
             tagline="Find the best candidates"
             features={['Post jobs instantly', 'AI-ranked shortlists', 'PDF candidate reports', 'Engagement analytics']}
-            gradient="rgba(255,107,157,0.12), rgba(255,140,66,0.08)"
+            gradient="rgba(255,55,95,0.12), rgba(255,140,66,0.08)"
             path="/login" delay={0.15}
           />
           <RoleCard
             icon={Shield} role="Placement Cell"
             tagline="Manage the entire pipeline"
             features={['Real-time analytics', 'Student management', 'Recruiter oversight', 'Placement funnel tracking']}
-            gradient="rgba(62,207,207,0.12), rgba(108,99,255,0.08)"
+            gradient="rgba(100,210,255,0.12), rgba(10,132,255,0.08)"
             path="/login" delay={0.3}
           />
         </div>
@@ -458,11 +458,11 @@ export default function LandingPage() {
           className="rounded-2xl p-12 relative overflow-hidden"
           style={{
             background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(108,99,255,0.2)',
+            border: '1px solid rgba(10,132,255,0.2)',
           }}
         >
           <div className="absolute inset-0 pointer-events-none"
-            style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(108,99,255,0.15), transparent 60%)' }}
+            style={{ background: 'radial-gradient(ellipse at 50% 0%, rgba(10,132,255,0.15), transparent 60%)' }}
           />
           <div className="relative">
             <h2 className="text-3xl md:text-4xl font-bold mb-4" style={{ fontFamily: 'var(--font-heading)' }}>

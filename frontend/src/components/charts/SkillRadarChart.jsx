@@ -14,12 +14,12 @@ export default function SkillRadarChart({ radar }) {
         <PolarAngleAxis dataKey="subject" tick={{ fill: '#94A3B8', fontSize: 11 }} />
         <defs>
           <linearGradient id="radarFill" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#6C63FF" stopOpacity={0.4} />
-            <stop offset="100%" stopColor="#3ECFCF" stopOpacity={0.4} />
+            <stop offset="0%" stopColor="#0A84FF" stopOpacity={0.4} />
+            <stop offset="100%" stopColor="#64D2FF" stopOpacity={0.4} />
           </linearGradient>
         </defs>
         <Radar
-          dataKey="value" stroke="#6C63FF" fill="url(#radarFill)"
+          dataKey="value" stroke="#0A84FF" fill="url(#radarFill)"
           strokeWidth={2}
         />
       </RadarChart>

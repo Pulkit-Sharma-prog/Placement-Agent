@@ -49,16 +49,16 @@ export default function ApplicationTracker() {
                   <div
                     className="px-3 py-1.5 rounded-full text-xs font-medium relative"
                     style={{
-                      background: isActive ? 'rgba(108,99,255,0.3)' : count > 0 ? 'rgba(62,207,207,0.15)' : 'var(--bg-elevated)',
-                      color: isActive ? '#6C63FF' : count > 0 ? '#3ECFCF' : 'var(--text-muted)',
-                      border: `1px solid ${isActive ? 'rgba(108,99,255,0.5)' : count > 0 ? 'rgba(62,207,207,0.3)' : 'var(--border-subtle)'}`,
+                      background: isActive ? 'rgba(10,132,255,0.3)' : count > 0 ? 'rgba(100,210,255,0.15)' : 'var(--bg-elevated)',
+                      color: isActive ? '#0A84FF' : count > 0 ? '#64D2FF' : 'var(--text-muted)',
+                      border: `1px solid ${isActive ? 'rgba(10,132,255,0.5)' : count > 0 ? 'rgba(100,210,255,0.3)' : 'var(--border-subtle)'}`,
                     }}
                   >
                     {stage.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
                     {count > 0 && (
                       <span
                         className="ml-1.5 px-1 rounded-full text-xs"
-                        style={{ background: isActive ? '#6C63FF' : '#3ECFCF', color: 'white' }}
+                        style={{ background: isActive ? '#0A84FF' : '#64D2FF', color: 'white' }}
                       >
                         {count}
                       </span>
@@ -96,7 +96,7 @@ export default function ApplicationTracker() {
               >
                 <div
                   className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold flex-shrink-0"
-                  style={{ background: 'rgba(108,99,255,0.15)', color: 'var(--purple)' }}
+                  style={{ background: 'rgba(10,132,255,0.15)', color: 'var(--purple)' }}
                 >
                   {(app.job?.company || '?')[0]}
                 </div>
@@ -112,7 +112,7 @@ export default function ApplicationTracker() {
                 </div>
                 <div className="text-right text-xs flex-shrink-0" style={{ color: 'var(--text-muted)' }}>
                   {app.ctc_offered && (
-                    <p className="font-medium" style={{ color: '#3ECFCF' }}>
+                    <p className="font-medium" style={{ color: '#64D2FF' }}>
                       ₹{(app.ctc_offered / 100000).toFixed(1)}L offered
                     </p>
                   )}

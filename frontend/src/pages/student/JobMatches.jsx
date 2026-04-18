@@ -77,7 +77,7 @@ export default function JobMatches() {
           >
             <div
               className="w-16 h-16 rounded-2xl flex items-center justify-center"
-              style={{ background: 'rgba(108,99,255,0.15)' }}
+              style={{ background: 'rgba(10,132,255,0.15)' }}
             >
               <Upload size={28} style={{ color: 'var(--purple)' }} />
             </div>
@@ -190,7 +190,7 @@ export default function JobMatches() {
                             <span
                               key={s}
                               className="text-xs px-2 py-0.5 rounded-full"
-                              style={{ background: 'rgba(255,107,157,0.1)', color: '#FF6B9D' }}
+                              style={{ background: 'rgba(255,55,95,0.1)', color: '#FF375F' }}
                             >
                               {s}
                             </span>

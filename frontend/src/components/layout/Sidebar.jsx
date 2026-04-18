@@ -1,8 +1,9 @@
 import { NavLink, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect } from 'react'
 import {
   LayoutDashboard, User, Briefcase, ClipboardList, Bell, LogOut,
-  Users, Building2, BarChart3, Calendar,
+  Users, Building2, BarChart3, Calendar, X,
 } from 'lucide-react'
 import { useAuthStore } from '../../store/authStore'
 
@@ -28,34 +29,33 @@ const ADMIN_NAV = [
   { to: '/admin/analytics',   icon: BarChart3,       label: 'Analytics' },
 ]
 
-function NavItem({ to, icon: Icon, label, end = false }) {
+function NavItem({ to, icon: Icon, label, end = false, onNavigate }) {
   return (
     <NavLink
       to={to}
       end={end}
+      onClick={onNavigate}
       className={({ isActive }) =>
-        `flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 relative overflow-hidden ${
-          isActive
-            ? 'text-white'
-            : 'text-slate-400 hover:text-white hover:bg-white/5'
+        `flex items-center gap-3 px-3 py-2 rounded-[10px] text-[13px] font-medium transition-colors relative ${
+          isActive ? 'text-white' : 'hover:bg-white/5'
         }`
       }
+      style={({ isActive }) => ({
+        color: isActive ? '#fff' : 'var(--text-secondary)',
+      })}
     >
       {({ isActive }) => (
         <>
           {isActive && (
             <motion.div
               layoutId="sidebar-active"
-              className="absolute inset-0 rounded-xl"
-              style={{
-                background: 'linear-gradient(135deg, rgba(108,99,255,0.25), rgba(62,207,207,0.12))',
-                border: '1px solid rgba(108,99,255,0.3)',
-              }}
+              className="absolute inset-0 rounded-[10px]"
+              style={{ background: 'var(--system-blue)' }}
               transition={{ type: 'spring', stiffness: 350, damping: 30 }}
             />
           )}
           <span className="relative flex items-center gap-3">
-            <Icon size={18} />
+            <Icon size={17} />
             <span>{label}</span>
           </span>
         </>
@@ -64,7 +64,7 @@ function NavItem({ to, icon: Icon, label, end = false }) {
   )
 }
 
-export default function Sidebar() {
+function SidebarContent({ onNavigate }) {
   const { user, logout } = useAuthStore()
   const navigate = useNavigate()
   const role = user?.role || 'student'
@@ -74,89 +74,149 @@ export default function Sidebar() {
     role === 'admin' ? ADMIN_NAV :
     STUDENT_NAV
 
-  const roleConfig = {
-    student:   { color: '#6C63FF', gradient: 'from-purple-500 to-teal-400', label: 'Student Portal' },
-    recruiter: { color: '#FF6B9D', gradient: 'from-pink-500 to-orange-400', label: 'Recruiter Portal' },
-    admin:     { color: '#3ECFCF', gradient: 'from-teal-400 to-purple-500', label: 'Admin Portal' },
-  }
-  const rc = roleConfig[role] || roleConfig.student
+  const roleLabel =
+    role === 'recruiter' ? 'Recruiter' :
+    role === 'admin' ? 'Admin' :
+    'Student'
 
   function handleLogout() {
     logout()
     navigate('/')
+    onNavigate?.()
   }
 
   return (
-    <motion.aside
-      initial={{ x: -260 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.3, ease: 'easeOut' }}
-      className="w-[260px] flex-shrink-0 flex flex-col h-screen sticky top-0"
-      style={{
-        background: 'var(--bg-surface)',
-        borderRight: '1px solid var(--border-subtle)',
-      }}
-    >
+    <>
       {/* Logo + branding */}
-      <div className="px-6 py-5">
+      <div className="px-4 pt-4 pb-3">
         <div className="flex items-center gap-2.5">
-          <img src="/favicon.svg" alt="PlacementsAI" className="w-9 h-9 rounded-xl" />
-          <div>
+          <img src="/favicon.svg" alt="PlacementsAI" className="w-8 h-8 rounded-lg" />
+          <div className="min-w-0">
             <span
-              className="text-lg font-bold aurora-text block leading-tight"
-              style={{ fontFamily: 'var(--font-heading)' }}
+              className="text-[15px] font-semibold block leading-tight"
+              style={{ color: 'var(--text-primary)', letterSpacing: '-0.02em' }}
             >
               PlacementsAI
             </span>
-            <p className="text-[10px] font-medium tracking-wider uppercase" style={{ color: rc.color }}>
-              {rc.label}
+            <p className="text-[11px] font-medium" style={{ color: 'var(--text-secondary)' }}>
+              {roleLabel}
             </p>
           </div>
         </div>
       </div>
 
-      <div className="h-px mx-4 mb-3" style={{ background: 'var(--border-subtle)' }} />
-
-      {/* Section label */}
-      <div className="px-6 mb-2">
-        <p className="text-[10px] font-semibold tracking-wider uppercase" style={{ color: 'var(--text-muted)' }}>
-          Navigation
-        </p>
-      </div>
+      <div className="h-px mx-4 mb-2" style={{ background: 'var(--separator)' }} />
 
       {/* Nav items */}
-      <nav className="flex-1 px-3 space-y-1">
+      <nav className="flex-1 px-2 space-y-0.5 overflow-y-auto no-scrollbar">
         {navItems.map((item) => (
           <NavItem
-            key={item.to} {...item}
+            key={item.to}
+            {...item}
             end={item.to === '/student' || item.to === '/recruiter' || item.to === '/admin'}
+            onNavigate={onNavigate}
           />
         ))}
       </nav>
 
       {/* User info + logout */}
-      <div className="px-3 pb-4">
-        <div className="p-3 rounded-xl" style={{ background: 'var(--bg-elevated)' }}>
-          <div className="flex items-center gap-3 mb-3">
+      <div className="px-2 pb-3" style={{ paddingBottom: `max(12px, env(safe-area-inset-bottom))` }}>
+        <div
+          className="p-2.5 rounded-[12px]"
+          style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border-subtle)' }}
+        >
+          <div className="flex items-center gap-2.5 mb-2">
             <div
-              className={`w-9 h-9 rounded-full bg-gradient-to-br ${rc.gradient} flex items-center justify-center text-white font-bold text-sm`}
+              className="w-8 h-8 rounded-full flex items-center justify-center text-white font-semibold text-[13px]"
+              style={{ background: 'var(--system-blue)' }}
             >
               {(user?.email || 'U')[0].toUpperCase()}
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium text-white truncate">{user?.email}</p>
-              <p className="text-xs capitalize" style={{ color: 'var(--text-muted)' }}>{role}</p>
+              <p className="text-[13px] font-medium truncate" style={{ color: 'var(--text-primary)' }}>
+                {user?.email}
+              </p>
+              <p className="text-[11px] capitalize" style={{ color: 'var(--text-muted)' }}>{role}</p>
             </div>
           </div>
           <button
             onClick={handleLogout}
-            className="flex items-center gap-2 w-full px-3 py-2 rounded-lg text-sm transition-colors hover:bg-red-500/15 text-red-400"
+            className="flex items-center gap-2 w-full px-2.5 py-1.5 rounded-[8px] text-[13px] transition-colors hover:bg-white/5"
+            style={{ color: 'var(--system-red)' }}
           >
-            <LogOut size={15} />
+            <LogOut size={14} />
             Sign out
           </button>
         </div>
       </div>
-    </motion.aside>
+    </>
+  )
+}
+
+export default function Sidebar({ open = false, onClose }) {
+  // Lock body scroll while mobile drawer is open
+  useEffect(() => {
+    if (!open) return
+    const prev = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => { document.body.style.overflow = prev }
+  }, [open])
+
+  return (
+    <>
+      {/* Desktop: static sidebar */}
+      <aside
+        className="hidden md:flex w-[240px] flex-shrink-0 flex-col h-screen sticky top-0"
+        style={{
+          background: 'var(--bg-glass)',
+          backdropFilter: 'saturate(180%) blur(30px)',
+          WebkitBackdropFilter: 'saturate(180%) blur(30px)',
+          borderRight: '1px solid var(--separator)',
+        }}
+      >
+        <SidebarContent />
+      </aside>
+
+      {/* Mobile: slide-in drawer */}
+      <AnimatePresence>
+        {open && (
+          <>
+            <motion.div
+              key="overlay"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="md:hidden fixed inset-0 z-40"
+              style={{ background: 'rgba(0,0,0,0.45)' }}
+              onClick={onClose}
+            />
+            <motion.aside
+              key="drawer"
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', stiffness: 360, damping: 34 }}
+              className="md:hidden fixed top-0 left-0 bottom-0 z-50 w-[82vw] max-w-[300px] flex flex-col"
+              style={{
+                background: 'var(--bg-surface)',
+                borderRight: '1px solid var(--separator)',
+                paddingTop: 'env(safe-area-inset-top)',
+              }}
+            >
+              <button
+                onClick={onClose}
+                aria-label="Close menu"
+                className="absolute top-2 right-2 p-2 rounded-full transition-colors hover:bg-white/5"
+                style={{ color: 'var(--text-secondary)' }}
+              >
+                <X size={18} />
+              </button>
+              <SidebarContent onNavigate={onClose} />
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
+    </>
   )
 }

@@ -24,15 +24,15 @@ export default function OffersLineChart({ data }) {
         <Tooltip content={<CustomTooltip />} />
         <defs>
           <linearGradient id="lineGrad" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%"   stopColor="#6C63FF" />
-            <stop offset="100%" stopColor="#3ECFCF" />
+            <stop offset="0%"   stopColor="#0A84FF" />
+            <stop offset="100%" stopColor="#64D2FF" />
           </linearGradient>
         </defs>
         <Line
           type="monotone" dataKey="offers"
           stroke="url(#lineGrad)" strokeWidth={2.5}
-          dot={{ fill: '#6C63FF', r: 3, strokeWidth: 0 }}
-          activeDot={{ r: 5, fill: '#3ECFCF' }}
+          dot={{ fill: '#0A84FF', r: 3, strokeWidth: 0 }}
+          activeDot={{ r: 5, fill: '#64D2FF' }}
         />
       </LineChart>
     </ResponsiveContainer>

@@ -60,12 +60,12 @@ export default function RecruiterDashboard() {
         </div>
 
         <StatCardRow>
-          <StatCard icon={Briefcase} label="Active Jobs"       value={jobs.length}      color="#6C63FF" />
-          <StatCard icon={Users}     label="Total Applicants"  value={totalApplicants}  color="#3ECFCF" />
-          <StatCard icon={Calendar}  label="Candidates Matched" value={shortlist.length} color="#FF6B9D" />
+          <StatCard icon={Briefcase} label="Active Jobs"       value={jobs.length}      color="#0A84FF" />
+          <StatCard icon={Users}     label="Total Applicants"  value={totalApplicants}  color="#64D2FF" />
+          <StatCard icon={Calendar}  label="Candidates Matched" value={shortlist.length} color="#FF375F" />
           <StatCard icon={Award}     label="Top Match"
             value={shortlist[0] ? `${Math.round(shortlist[0].match_score)}%` : '—'}
-            color="#FF8C42"
+            color="#FF9F0A"
           />
         </StatCardRow>
 
