@@ -6,6 +6,7 @@ import { useState, lazy, Suspense } from 'react'
 import { Menu } from 'lucide-react'
 import { useAuthStore } from './store/authStore'
 import Sidebar from './components/layout/Sidebar'
+import ErrorBoundary from './components/ErrorBoundary'
 
 // Lazy-load route chunks so the initial bundle only contains the shell.
 // Each cluster (auth, student, recruiter, admin) is split on its own.
@@ -251,20 +252,22 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <BrowserRouter>
-        <AnimatedRoutes />
-      </BrowserRouter>
-      <Toaster
-        position="bottom-right"
-        toastOptions={{
-          style: {
-            background: 'var(--bg-surface)',
-            border: '1px solid var(--border-subtle)',
-            color: 'var(--text-primary)',
-          },
-        }}
-      />
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <AnimatedRoutes />
+        </BrowserRouter>
+          <Toaster
+          position="bottom-right"
+          toastOptions={{
+            style: {
+              background: 'var(--bg-surface)',
+              border: '1px solid var(--border-subtle)',
+              color: 'var(--text-primary)',
+            },
+          }}
+        />
+      </QueryClientProvider>
+    </ErrorBoundary>
   )
 }

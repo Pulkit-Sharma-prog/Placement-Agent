@@ -4,10 +4,11 @@ routes/auth.py — Login, registration, and Google OAuth endpoints.
 
 import os
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
+from api.limiter import limiter
 from database.connection import get_db_session
 from database.models import Recruiter, Student, User
 from utils.auth import create_access_token, hash_password, verify_password
@@ -44,7 +45,8 @@ class GoogleTokenRequest(BaseModel):
 
 
 @router.post("/login")
-def login(req: LoginRequest, db: Session = Depends(get_db_session)):
+@limiter.limit("5/minute")
+def login(request: Request, req: LoginRequest, db: Session = Depends(get_db_session)):
     user = db.query(User).filter_by(email=req.email, is_active=True).first()
     if not user or not verify_password(req.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Invalid email or password")
@@ -65,7 +67,8 @@ def login(req: LoginRequest, db: Session = Depends(get_db_session)):
 
 
 @router.post("/register")
-def register(req: RegisterRequest, db: Session = Depends(get_db_session)):
+@limiter.limit("10/hour")
+def register(request: Request, req: RegisterRequest, db: Session = Depends(get_db_session)):
     if req.role not in ("student",):
         raise HTTPException(status_code=400, detail="Only student registration is open.")
 

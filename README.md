@@ -1,10 +1,12 @@
 # PlacementsAI — AI-Powered College Placement System
 
-A full-stack multi-agent platform for automating college placement workflows. Includes resume parsing, student profiling, job-student matching (TF-IDF), application tracking, recruiter management, and analytics dashboards.
+A full-stack multi-agent platform for automating college placement workflows:
+resume parsing, student profiling, TF-IDF job matching, application tracking,
+recruiter management, and analytics dashboards.
 
 ---
 
-## Architecture
+## Project layout
 
 ```
 placements-agent/
@@ -12,140 +14,168 @@ placements-agent/
 │   ├── agents/          # resume_parser, student_profiling, job_processing,
 │   │                    # matching_engine, interview_tracker, recommendation,
 │   │                    # recruiter_management, analytics
-│   ├── api/             # FastAPI app + REST routes
+│   ├── api/             # FastAPI app, routes, shared limiter
 │   ├── database/        # ORM models, connection, seed data
-│   └── utils/           # JWT auth helpers
+│   ├── utils/           # JWT auth + upload validation helpers
+│   ├── alembic/         # DB migrations (see alembic/README.md)
+│   └── tests/           # pytest suite
 ├── frontend/            # React 19 + Vite + Tailwind CSS v4
 │   └── src/
-│       ├── pages/       # student/, recruiter/, admin/, auth/
-│       ├── components/  # layout/, ui/, charts/
+│       ├── pages/       # student/, recruiter/, admin/, auth/, shared/
+│       ├── components/  # layout/, ui/, charts/, ErrorBoundary
 │       ├── store/       # Zustand auth store
 │       └── lib/         # Axios API client
-└── venv/                # Python virtualenv (shared)
+├── requirements.txt     # Python deps (shared across backend + tests)
+├── render.yaml          # Render.com deploy config
+└── .python-version      # Pinned Python version
 ```
 
 ---
 
 ## Prerequisites
 
-- **Python 3.10+**
-- **Node.js 18+**
+- **Python** 3.11 (see `.python-version`)
+- **Node.js** 18+
 
 ---
 
-## Setup & Run
+## Setup
 
 ### 1. Backend
 
 ```bash
 cd placements-agent
 
-# Activate virtualenv
+# Create and activate a virtualenv
+python -m venv venv
 venv\Scripts\activate          # Windows
-# source venv/bin/activate     # Mac/Linux
+# source venv/bin/activate     # macOS / Linux
 
-# Install dependencies (if not already installed)
-pip install fastapi uvicorn sqlalchemy passlib python-jose[cryptography] \
-    scikit-learn reportlab python-multipart python-docx spacy pdfplumber \
-    aiosmtplib apscheduler bcrypt==4.0.1
-
+pip install -r requirements.txt
 python -m spacy download en_core_web_sm
+```
 
-# Seed the database (creates placements.db with 20 students, 15 jobs, matches)
+### 2. Database
+
+On a fresh checkout, either run the seed script (creates `placements.db`
+with sample students, jobs, and matches) or apply migrations against an
+empty DB.
+
+```bash
 cd backend
+
+# Option A — demo data
 python -m database.seed_data
 
-# Start the API server
+# Option B — empty schema via Alembic
+alembic upgrade head
+```
+
+If you already have a `placements.db` from `create_tables()`, stamp it as
+current before your next migration:
+
+```bash
+alembic stamp head
+```
+
+See `backend/alembic/README.md` for the full migration workflow.
+
+### 3. Run the API
+
+```bash
+cd backend
 uvicorn api.main:app --reload --port 8000
 ```
 
-API is available at: `http://localhost:8000/api/v1`  
-Swagger docs: `http://localhost:8000/docs`
+- API base:   `http://localhost:8000/api/v1`
+- Swagger UI: `http://localhost:8000/docs`
+- Health:     `http://localhost:8000/health`
 
-### 2. Frontend
+### 4. Run the frontend
 
 ```bash
-cd placements-agent/frontend
-
+cd frontend
 npm install
 npm run dev
 ```
 
-App is available at: `http://localhost:5173`
+App runs at `http://localhost:5173`. The Vite dev server proxies `/api/*`
+and `/health` to `127.0.0.1:8000`, so no CORS or env setup is needed for
+local development.
 
 ---
 
-## Demo Credentials
+## Environment variables
 
-| Role      | Email                      | Password   |
-|-----------|----------------------------|------------|
-| Admin     | admin@placements.edu       | admin123   |
-| Recruiter | recruiter1@google.com      | recruiter1 |
-| Student   | student1@college.edu       | student1   |
+Backend (all optional in dev):
 
----
+| Var                | Purpose                                                                 |
+|--------------------|-------------------------------------------------------------------------|
+| `ENV`              | `production` activates the default-SECRET_KEY safety check              |
+| `SECRET_KEY`       | JWT signing key. **Must** be set in production.                         |
+| `DATABASE_URL`     | SQLAlchemy URL. Defaults to SQLite in `backend/database/placements.db`  |
+| `FRONTEND_URL`     | Appended to the CORS allow-list                                          |
+| `CORS_ORIGINS`     | Comma-separated override for the whole CORS allow-list                  |
+| `GOOGLE_CLIENT_ID` | Client ID for Google Sign-In                                            |
 
-## Key Features
+Frontend:
 
-### Student Portal
-- **Dashboard** — match score overview, top job recommendations, application status
-- **Job Matches** — browse jobs ranked by AI match score (TF-IDF cosine similarity)
-- **Applications** — track application pipeline stage by stage
-- **Profile** — upload resume (PDF/DOCX), view parsed data and skill radar
-- **Notifications** — real-time match alerts, interview reminders
-
-### Recruiter Portal
-- **Dashboard** — candidate shortlist, job performance stats
-- **Post Job** — 3-step form: basic info → requirements → preview
-- **Candidates** — searchable table with profile scores and skill badges
-- **Job Postings** — manage all active/closed postings
-- **Interviews** — schedule view with candidate details
-
-### Admin Dashboard
-- **Overview** — placement rate, avg CTC, total offers, funnel visualization
-- **Analytics** — monthly trends, branch breakdown, CTC distribution, skill demand
-- **Students** — full student management with search and branch filter
-- **Recruiters** — recruiter cards with engagement scores
+| Var                  | Purpose                                                      |
+|----------------------|--------------------------------------------------------------|
+| `VITE_API_BASE_URL`  | Override the default `/api/v1` base URL (same-origin/proxy) |
 
 ---
 
-## API Overview
+## Demo credentials
 
-Base URL: `/api/v1`
-
-| Method | Endpoint                          | Description                    |
-|--------|-----------------------------------|--------------------------------|
-| POST   | `/auth/login`                     | Login → JWT token              |
-| POST   | `/auth/register`                  | Student registration           |
-| GET    | `/students`                       | List students (paginated)      |
-| POST   | `/students/{id}/resume`           | Upload + parse resume          |
-| GET    | `/students/{id}/matches`          | AI job matches for student     |
-| GET    | `/jobs`                           | List jobs                      |
-| POST   | `/jobs`                           | Post new job                   |
-| GET    | `/jobs/{id}/shortlist`            | Ranked candidates for job      |
-| POST   | `/applications`                   | Apply to job                   |
-| PATCH  | `/applications/{id}/status`       | Update application status      |
-| GET    | `/analytics/overview`             | KPI summary                    |
-| GET    | `/analytics/monthly-offers`       | Monthly offer trends           |
-| POST   | `/admin/agents/{name}/run`        | Trigger agent manually         |
+| Role      | Email                  | Password   |
+|-----------|------------------------|------------|
+| Admin     | admin@placements.edu   | admin123   |
+| Recruiter | recruiter1@google.com  | recruiter1 |
+| Student   | student1@college.edu   | student1   |
 
 ---
 
-## Running Tests
+## Running tests
 
 ```bash
-cd placements-agent
-venv\Scripts\activate
 cd backend
-python -m pytest tests/ -v
+pytest tests/ -v
 ```
 
 ---
 
-## Tech Stack
+## Key features
 
-**Backend:** Python, FastAPI, SQLAlchemy 2.x, SQLite, scikit-learn (TF-IDF), spaCy, pdfplumber, reportlab, python-jose (JWT), passlib (bcrypt)
+**Student Portal** — dashboard, job matches (TF-IDF cosine similarity),
+application tracker, resume upload with AI parsing, notifications.
 
-**Frontend:** React 19, Vite 8, Tailwind CSS v4, Framer Motion, TanStack Query v5, Zustand, Recharts, Axios, Sonner (toasts), Lucide React
+**Recruiter Portal** — candidate shortlist, 3-step job posting form,
+searchable candidate table, interview schedule.
 
-**AI Agents:** 8 specialized agents — ResumeParserAgent, StudentProfilingAgent, JobProcessingAgent, MatchingEngineAgent, InterviewTrackerAgent, RecommendationAgent, RecruiterManagementAgent, AnalyticsAgent
+**Admin Dashboard** — placement KPIs, monthly trends, branch breakdown,
+CTC distribution, skill demand, full student/recruiter management.
+
+---
+
+## Security notes
+
+- Login is rate-limited to **5 attempts / minute / IP** (slowapi).
+- Registration is rate-limited to **10 / hour / IP**.
+- Resume uploads are capped at **10 MiB** and restricted to PDF/DOCX.
+- JWT tokens are 24-hour; `SECRET_KEY` must be overridden in production.
+
+---
+
+## Tech stack
+
+**Backend:** Python 3.11, FastAPI, SQLAlchemy 2, Alembic, SQLite,
+scikit-learn (TF-IDF), spaCy, pdfplumber, python-docx, APScheduler,
+slowapi, python-jose (JWT), passlib (bcrypt).
+
+**Frontend:** React 19, Vite, Tailwind CSS v4, Framer Motion,
+TanStack Query v5, Zustand, Recharts, Axios, Sonner, Lucide React.
+
+**AI Agents:** ResumeParserAgent, StudentProfilingAgent, JobProcessingAgent,
+MatchingEngineAgent, InterviewTrackerAgent, RecommendationAgent,
+RecruiterManagementAgent, AnalyticsAgent.

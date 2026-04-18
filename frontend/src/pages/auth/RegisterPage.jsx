@@ -6,10 +6,44 @@ import { toast } from 'sonner'
 import api from '../../lib/api'
 import GoogleSignInButton from '../../components/ui/GoogleSignInButton'
 
+const INPUT_STYLE = {
+  background: 'var(--bg-elevated)',
+  border: '1px solid var(--border-subtle)',
+  color: 'var(--text-primary)',
+}
+
+// Defined at module scope so React preserves the input instance across
+// re-renders of the parent — otherwise the input unmounts on every keystroke
+// and drops focus.
+function Field({ id, label, type = 'text', placeholder, required = true, value, onChange }) {
+  return (
+    <div>
+      <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
+        {label}
+      </label>
+      <input
+        id={id}
+        name={id}
+        type={type}
+        value={value}
+        onChange={onChange}
+        required={required}
+        className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
+        style={INPUT_STYLE}
+        placeholder={placeholder}
+        onFocus={e => (e.target.style.borderColor = 'var(--border-active)')}
+        onBlur={e => (e.target.style.borderColor = 'var(--border-subtle)')}
+      />
+    </div>
+  )
+}
+
 export default function RegisterPage() {
   const navigate = useNavigate()
   const [form, setForm] = useState({ email: '', password: '', full_name: '', roll_number: '' })
   const [loading, setLoading] = useState(false)
+
+  const updateField = (id) => (e) => setForm(prev => ({ ...prev, [id]: e.target.value }))
 
   async function handleSubmit(e) {
     e.preventDefault()
@@ -25,33 +59,6 @@ export default function RegisterPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const inputStyle = {
-    background: 'var(--bg-elevated)',
-    border: '1px solid var(--border-subtle)',
-    color: 'var(--text-primary)',
-  }
-
-  function Field({ id, label, type = 'text', placeholder, required = true }) {
-    return (
-      <div>
-        <label className="block text-xs font-medium mb-1.5" style={{ color: 'var(--text-secondary)' }}>
-          {label}
-        </label>
-        <input
-          type={type}
-          value={form[id]}
-          onChange={e => setForm({ ...form, [id]: e.target.value })}
-          required={required}
-          className="w-full px-4 py-3 rounded-xl text-sm outline-none transition-all"
-          style={inputStyle}
-          placeholder={placeholder}
-          onFocus={e => e.target.style.borderColor = 'var(--border-active)'}
-          onBlur={e => e.target.style.borderColor = 'var(--border-subtle)'}
-        />
-      </div>
-    )
   }
 
   return (
@@ -93,10 +100,14 @@ export default function RegisterPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <Field id="full_name"    label="Full Name"              placeholder="Arjun Sharma" />
-          <Field id="email"        label="College Email"  type="email" placeholder="arjun@college.edu" />
-          <Field id="roll_number"  label="Roll Number (optional)" placeholder="CS2024001" required={false} />
-          <Field id="password"     label="Password"       type="password" placeholder="••••••••" />
+          <Field id="full_name"   label="Full Name"              placeholder="Arjun Sharma"
+                 value={form.full_name}   onChange={updateField('full_name')} />
+          <Field id="email"       label="College Email" type="email" placeholder="arjun@college.edu"
+                 value={form.email}       onChange={updateField('email')} />
+          <Field id="roll_number" label="Roll Number (optional)" placeholder="CS2024001" required={false}
+                 value={form.roll_number} onChange={updateField('roll_number')} />
+          <Field id="password"    label="Password"      type="password" placeholder="••••••••"
+                 value={form.password}    onChange={updateField('password')} />
 
           <motion.button
             type="submit"

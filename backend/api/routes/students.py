@@ -3,7 +3,6 @@ routes/students.py — Student CRUD, resume upload, matches, applications, notif
 """
 
 import os
-import shutil
 from datetime import datetime
 from typing import Optional
 
@@ -14,6 +13,7 @@ from sqlalchemy.orm import Session
 from database.connection import get_db, get_db_session
 from database.models import Application, Job, Match, Notification, Recruiter, Student, StudentProfile
 from utils.auth import get_current_user
+from utils.uploads import save_upload_streaming, validate_upload
 
 router = APIRouter(prefix="/students", tags=["Students"])
 
@@ -82,14 +82,9 @@ async def upload_my_resume(
     s = _get_own_student(user, db)
     student_id = s.id
 
-    ext = os.path.splitext(resume.filename or "")[1].lower()
-    if ext not in (".pdf", ".docx"):
-        raise HTTPException(status_code=422, detail="Only PDF and DOCX files are accepted")
-
-    # Save file
+    ext = validate_upload(resume)
     save_path = os.path.join(UPLOAD_DIR, f"{student_id}{ext}")
-    with open(save_path, "wb") as f:
-        shutil.copyfileobj(resume.file, f)
+    save_upload_streaming(resume, save_path)
 
     s.resume_path = save_path
     db.commit()
@@ -378,13 +373,9 @@ async def upload_resume(
     if not s:
         raise HTTPException(status_code=404, detail="Student not found")
 
-    ext = os.path.splitext(resume.filename or "")[1].lower()
-    if ext not in (".pdf", ".docx"):
-        raise HTTPException(status_code=422, detail="Only PDF and DOCX files are accepted")
-
+    ext = validate_upload(resume)
     save_path = os.path.join(UPLOAD_DIR, f"{student_id}{ext}")
-    with open(save_path, "wb") as f:
-        shutil.copyfileobj(resume.file, f)
+    save_upload_streaming(resume, save_path)
 
     s.resume_path = save_path
     db.commit()
