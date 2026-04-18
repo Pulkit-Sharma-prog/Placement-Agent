@@ -126,7 +126,7 @@ export default function AnalyticsPage() {
                 {ctcBuckets.map((bucket, i) => {
                   const total = ctcBuckets.reduce((s, b) => s + b.count, 0)
                   const pct = total > 0 ? (bucket.count / total) * 100 : 0
-                  const colors = ['#FF6B9D', '#FF8C42', '#3ECFCF', '#6C63FF', '#4ADE80']
+                  const colors = ['#FF375F', '#FF9F0A', '#64D2FF', '#0A84FF', '#32D74B']
                   return (
                     <div key={bucket.range}>
                       <div className="flex justify-between text-xs mb-1" style={{ color: 'var(--text-secondary)' }}>

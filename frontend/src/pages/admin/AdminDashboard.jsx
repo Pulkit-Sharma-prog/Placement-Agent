@@ -35,10 +35,10 @@ export default function AdminDashboard() {
   // Funnel data built from overview stats
   const total = ov.total_students || 0
   const funnel = [
-    { label: 'Total Students',  value: total,                         color: '#6C63FF' },
-    { label: 'Applications',    value: ov.total_applications || 0,    color: '#3ECFCF' },
-    { label: 'Interviews',      value: ov.interviews_scheduled || 0,  color: '#FF8C42' },
-    { label: 'Offers Made',     value: ov.offers_made || 0,           color: '#FF6B9D' },
+    { label: 'Total Students',  value: total,                         color: '#0A84FF' },
+    { label: 'Applications',    value: ov.total_applications || 0,    color: '#64D2FF' },
+    { label: 'Interviews',      value: ov.interviews_scheduled || 0,  color: '#FF9F0A' },
+    { label: 'Offers Made',     value: ov.offers_made || 0,           color: '#FF375F' },
   ]
 
   return (
@@ -57,10 +57,10 @@ export default function AdminDashboard() {
           </div>
         ) : (
           <StatCardRow>
-            <StatCard icon={Users}      label="Total Students" value={ov.total_students || 0}                                             color="#6C63FF" delta={ov.placement_rate ? `${ov.placement_rate.toFixed(1)}% placed` : undefined} />
-            <StatCard icon={Briefcase}  label="Active Jobs"    value={ov.active_jobs || 0}                                               color="#3ECFCF" />
-            <StatCard icon={TrendingUp} label="Avg CTC (LPA)"  value={ov.avg_ctc ? `₹${(ov.avg_ctc / 100000).toFixed(1)}L` : '—'}      color="#FF8C42" />
-            <StatCard icon={Award}      label="Offers Made"    value={ov.offers_made || 0}                                               color="#FF6B9D" />
+            <StatCard icon={Users}      label="Total Students" value={ov.total_students || 0}                                             color="#0A84FF" delta={ov.placement_rate ? `${ov.placement_rate.toFixed(1)}% placed` : undefined} />
+            <StatCard icon={Briefcase}  label="Active Jobs"    value={ov.active_jobs || 0}                                               color="#64D2FF" />
+            <StatCard icon={TrendingUp} label="Avg CTC (LPA)"  value={ov.avg_ctc ? `₹${(ov.avg_ctc / 100000).toFixed(1)}L` : '—'}      color="#FF9F0A" />
+            <StatCard icon={Award}      label="Offers Made"    value={ov.offers_made || 0}                                               color="#FF375F" />
           </StatCardRow>
         )}
 

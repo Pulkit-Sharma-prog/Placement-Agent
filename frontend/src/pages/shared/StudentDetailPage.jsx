@@ -21,16 +21,16 @@ import { useAuthStore } from '../../store/authStore'
 
 // ── Colour palette (same as StudentProfile) ─────────────────────────────────
 const CAT_COLORS = {
-  'Programming Languages': { bg: 'rgba(108,99,255,0.12)', text: '#6C63FF', border: 'rgba(108,99,255,0.25)' },
-  'Web Development':       { bg: 'rgba(62,207,207,0.12)', text: '#3ECFCF', border: 'rgba(62,207,207,0.25)' },
-  'Mobile Development':    { bg: 'rgba(255,140,66,0.12)', text: '#FF8C42', border: 'rgba(255,140,66,0.25)' },
-  'Databases':             { bg: 'rgba(255,107,157,0.12)', text: '#FF6B9D', border: 'rgba(255,107,157,0.25)' },
+  'Programming Languages': { bg: 'rgba(10,132,255,0.12)', text: '#0A84FF', border: 'rgba(10,132,255,0.25)' },
+  'Web Development':       { bg: 'rgba(100,210,255,0.12)', text: '#64D2FF', border: 'rgba(100,210,255,0.25)' },
+  'Mobile Development':    { bg: 'rgba(255,140,66,0.12)', text: '#FF9F0A', border: 'rgba(255,140,66,0.25)' },
+  'Databases':             { bg: 'rgba(255,55,95,0.12)', text: '#FF375F', border: 'rgba(255,55,95,0.25)' },
   'Cloud & DevOps':        { bg: 'rgba(255,200,55,0.12)', text: '#FFC837', border: 'rgba(255,200,55,0.25)' },
   'Data Science & AI':     { bg: 'rgba(167,139,250,0.15)', text: '#A78BFA', border: 'rgba(167,139,250,0.3)' },
   'Computer Science':      { bg: 'rgba(94,234,212,0.10)', text: '#5EEAD4', border: 'rgba(94,234,212,0.25)' },
   'Tools & Platforms':     { bg: 'rgba(253,186,116,0.10)', text: '#FDBA74', border: 'rgba(253,186,116,0.25)' },
-  'Testing & QA':          { bg: 'rgba(74,222,128,0.12)', text: '#4ADE80', border: 'rgba(74,222,128,0.25)' },
-  'Security':              { bg: 'rgba(248,113,113,0.12)', text: '#F87171', border: 'rgba(248,113,113,0.25)' },
+  'Testing & QA':          { bg: 'rgba(74,222,128,0.12)', text: '#32D74B', border: 'rgba(74,222,128,0.25)' },
+  'Security':              { bg: 'rgba(248,113,113,0.12)', text: '#FF453A', border: 'rgba(248,113,113,0.25)' },
   'Embedded & Hardware':   { bg: 'rgba(156,163,175,0.12)', text: '#9CA3AF', border: 'rgba(156,163,175,0.25)' },
   'Design':                { bg: 'rgba(244,114,182,0.12)', text: '#F472B6', border: 'rgba(244,114,182,0.25)' },
   'Methodologies':         { bg: 'rgba(96,165,250,0.12)', text: '#60A5FA', border: 'rgba(96,165,250,0.25)' },
@@ -172,7 +172,7 @@ export default function StudentDetailPage() {
                     {parsed?.portfolio && (
                       <a href={parsed.portfolio} target="_blank" rel="noreferrer"
                         className="flex items-center gap-1 text-xs hover:opacity-80"
-                        style={{ color: '#3ECFCF' }}>
+                        style={{ color: '#64D2FF' }}>
                         <Globe size={11} /> Portfolio <ExternalLink size={9} />
                       </a>
                     )}
@@ -192,13 +192,13 @@ export default function StudentDetailPage() {
               <div className="flex flex-wrap gap-3 mt-3">
                 {student.branch && (
                   <span className="text-xs px-2.5 py-1 rounded-full"
-                    style={{ background: 'rgba(108,99,255,0.1)', color: 'var(--purple)', border: '1px solid rgba(108,99,255,0.2)' }}>
+                    style={{ background: 'rgba(10,132,255,0.1)', color: 'var(--purple)', border: '1px solid rgba(10,132,255,0.2)' }}>
                     {student.branch}
                   </span>
                 )}
                 {student.cgpa && (
                   <span className="text-xs px-2.5 py-1 rounded-full"
-                    style={{ background: 'rgba(62,207,207,0.1)', color: '#3ECFCF', border: '1px solid rgba(62,207,207,0.2)' }}>
+                    style={{ background: 'rgba(100,210,255,0.1)', color: '#64D2FF', border: '1px solid rgba(100,210,255,0.2)' }}>
                     CGPA {student.cgpa}
                   </span>
                 )}
@@ -216,7 +216,7 @@ export default function StudentDetailPage() {
                 )}
                 {!hasResume && (
                   <span className="text-xs px-2.5 py-1 rounded-full"
-                    style={{ background: 'rgba(255,107,157,0.1)', color: '#FF6B9D', border: '1px solid rgba(255,107,157,0.2)' }}>
+                    style={{ background: 'rgba(255,55,95,0.1)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.2)' }}>
                     No resume uploaded
                   </span>
                 )}
@@ -317,7 +317,7 @@ export default function StudentDetailPage() {
                         <div className="flex flex-wrap gap-1.5 mt-3">
                           {exp.tech_used.map(t => (
                             <span key={t} className="text-xs px-2 py-0.5 rounded"
-                              style={{ background: 'rgba(108,99,255,0.1)', color: 'var(--purple)' }}>
+                              style={{ background: 'rgba(10,132,255,0.1)', color: 'var(--purple)' }}>
                               {t}
                             </span>
                           ))}
@@ -331,7 +331,7 @@ export default function StudentDetailPage() {
 
             {/* Education */}
             {parsed?.education?.length > 0 && (
-              <Section icon={GraduationCap} title="Education" accent="#3ECFCF">
+              <Section icon={GraduationCap} title="Education" accent="#64D2FF">
                 <div className="space-y-3">
                   {parsed.education.map((edu, i) => (
                     <div key={i} className="flex items-start gap-3 p-3 rounded-xl"
@@ -352,7 +352,7 @@ export default function StudentDetailPage() {
                             </span>
                           )}
                           {edu.cgpa && (
-                            <span className="text-xs font-semibold" style={{ color: '#3ECFCF' }}>
+                            <span className="text-xs font-semibold" style={{ color: '#64D2FF' }}>
                               CGPA {edu.cgpa}
                             </span>
                           )}
@@ -384,7 +384,7 @@ export default function StudentDetailPage() {
                           {proj.live_link && (
                             <a href={proj.live_link} target="_blank" rel="noreferrer"
                               className="flex items-center gap-1 text-xs hover:opacity-80"
-                              style={{ color: '#3ECFCF' }}>
+                              style={{ color: '#64D2FF' }}>
                               <ExternalLink size={11} /> Live
                             </a>
                           )}
@@ -405,7 +405,7 @@ export default function StudentDetailPage() {
                         <div className="flex flex-wrap gap-1.5 mt-2">
                           {proj.tech_stack.map(t => (
                             <span key={t} className="text-xs px-2 py-0.5 rounded"
-                              style={{ background: 'rgba(62,207,207,0.1)', color: '#3ECFCF' }}>
+                              style={{ background: 'rgba(100,210,255,0.1)', color: '#64D2FF' }}>
                               {t}
                             </span>
                           ))}
@@ -474,12 +474,12 @@ export default function StudentDetailPage() {
 
             {/* Workshops / Seminars */}
             {parsed?.workshops?.length > 0 && (
-              <Section icon={FlaskConical} title="Workshops & Seminars" accent="#4ADE80">
+              <Section icon={FlaskConical} title="Workshops & Seminars" accent="#32D74B">
                 <ul className="space-y-2">
                   {parsed.workshops.map((w, i) => (
                     <li key={i} className="text-sm flex items-start gap-2 p-3 rounded-xl"
                       style={{ background: 'var(--bg-elevated)' }}>
-                      <FlaskConical size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#4ADE80' }} />
+                      <FlaskConical size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#32D74B' }} />
                       <span style={{ color: 'var(--text-secondary)' }}>{w}</span>
                     </li>
                   ))}
@@ -489,12 +489,12 @@ export default function StudentDetailPage() {
 
             {/* Achievements */}
             {parsed?.achievements?.length > 0 && (
-              <Section icon={Award} title="Achievements & Awards" accent="#FF6B9D">
+              <Section icon={Award} title="Achievements & Awards" accent="#FF375F">
                 <ul className="space-y-2">
                   {parsed.achievements.map((a, i) => (
                     <li key={i} className="text-sm flex items-start gap-2 p-3 rounded-xl"
                       style={{ background: 'var(--bg-elevated)' }}>
-                      <span style={{ color: '#FF6B9D' }} className="flex-shrink-0">🏆</span>
+                      <span style={{ color: '#FF375F' }} className="flex-shrink-0">🏆</span>
                       <span style={{ color: 'var(--text-secondary)' }}>{a}</span>
                     </li>
                   ))}
@@ -519,12 +519,12 @@ export default function StudentDetailPage() {
 
             {/* Volunteer */}
             {parsed?.volunteer?.length > 0 && (
-              <Section icon={Heart} title="Volunteer & Community Service" accent="#F87171">
+              <Section icon={Heart} title="Volunteer & Community Service" accent="#FF453A">
                 <ul className="space-y-2">
                   {parsed.volunteer.map((v, i) => (
                     <li key={i} className="text-sm flex items-start gap-2 p-3 rounded-xl"
                       style={{ background: 'var(--bg-elevated)' }}>
-                      <Heart size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#F87171' }} />
+                      <Heart size={13} className="flex-shrink-0 mt-0.5" style={{ color: '#FF453A' }} />
                       <span style={{ color: 'var(--text-secondary)' }}>{v}</span>
                     </li>
                   ))}
@@ -545,14 +545,14 @@ export default function StudentDetailPage() {
 
             {/* Skill Gaps (admin/recruiter insight) */}
             {profile?.skill_gaps?.length > 0 && (
-              <Section title="Skill Gaps" icon={TrendingUp} accent="#FF6B9D">
+              <Section title="Skill Gaps" icon={TrendingUp} accent="#FF375F">
                 <p className="text-xs mb-3" style={{ color: 'var(--text-muted)' }}>
                   High-demand skills this candidate hasn't listed yet:
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {profile.skill_gaps.map(s => (
                     <span key={s} className="text-xs px-2.5 py-1 rounded-full font-medium"
-                      style={{ background: 'rgba(255,107,157,0.1)', color: '#FF6B9D', border: '1px solid rgba(255,107,157,0.2)' }}>
+                      style={{ background: 'rgba(255,55,95,0.1)', color: '#FF375F', border: '1px solid rgba(255,55,95,0.2)' }}>
                       {s}
                     </span>
                   ))}

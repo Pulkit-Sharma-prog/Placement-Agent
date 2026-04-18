@@ -58,7 +58,7 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center px-4 relative" style={{ background: 'var(--bg-base)' }}>
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/3 right-1/3 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #FF6B9D, transparent)' }} />
+          style={{ background: 'radial-gradient(circle, #FF375F, transparent)' }} />
       </div>
 
       <motion.div

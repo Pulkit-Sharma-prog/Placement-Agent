@@ -2,38 +2,44 @@ import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-route
 import { AnimatePresence } from 'framer-motion'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { Toaster } from 'sonner'
-import { useState } from 'react'
+import { useState, lazy, Suspense } from 'react'
 import { Menu } from 'lucide-react'
 import { useAuthStore } from './store/authStore'
 import Sidebar from './components/layout/Sidebar'
 
-// Auth pages
-import LoginPage from './pages/auth/LoginPage'
-import RegisterPage from './pages/auth/RegisterPage'
+// Lazy-load route chunks so the initial bundle only contains the shell.
+// Each cluster (auth, student, recruiter, admin) is split on its own.
+const LandingPage  = lazy(() => import('./pages/LandingPage'))
+const LoginPage    = lazy(() => import('./pages/auth/LoginPage'))
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage'))
 
-// Student pages
-import StudentDashboard from './pages/student/StudentDashboard'
-import JobMatches from './pages/student/JobMatches'
-import ApplicationTracker from './pages/student/ApplicationTracker'
-import StudentProfile from './pages/student/StudentProfile'
-import Notifications from './pages/student/Notifications'
+const StudentDashboard    = lazy(() => import('./pages/student/StudentDashboard'))
+const JobMatches          = lazy(() => import('./pages/student/JobMatches'))
+const ApplicationTracker  = lazy(() => import('./pages/student/ApplicationTracker'))
+const StudentProfile      = lazy(() => import('./pages/student/StudentProfile'))
+const Notifications       = lazy(() => import('./pages/student/Notifications'))
 
-// Recruiter pages
-import RecruiterDashboard from './pages/recruiter/RecruiterDashboard'
-import PostJob from './pages/recruiter/PostJob'
-import CandidateList from './pages/recruiter/CandidateList'
-import JobPostings from './pages/recruiter/JobPostings'
-import InterviewSchedule from './pages/recruiter/InterviewSchedule'
+const RecruiterDashboard = lazy(() => import('./pages/recruiter/RecruiterDashboard'))
+const PostJob            = lazy(() => import('./pages/recruiter/PostJob'))
+const CandidateList      = lazy(() => import('./pages/recruiter/CandidateList'))
+const JobPostings        = lazy(() => import('./pages/recruiter/JobPostings'))
+const InterviewSchedule  = lazy(() => import('./pages/recruiter/InterviewSchedule'))
 
-// Admin pages
-import AdminDashboard from './pages/admin/AdminDashboard'
-import AnalyticsPage from './pages/admin/AnalyticsPage'
-import StudentManagement from './pages/admin/StudentManagement'
-import RecruiterManagement from './pages/admin/RecruiterManagement'
+const AdminDashboard      = lazy(() => import('./pages/admin/AdminDashboard'))
+const AnalyticsPage       = lazy(() => import('./pages/admin/AnalyticsPage'))
+const StudentManagement   = lazy(() => import('./pages/admin/StudentManagement'))
+const RecruiterManagement = lazy(() => import('./pages/admin/RecruiterManagement'))
 
-// Shared pages
-import StudentDetailPage from './pages/shared/StudentDetailPage'
-import LandingPage from './pages/LandingPage'
+const StudentDetailPage = lazy(() => import('./pages/shared/StudentDetailPage'))
+
+function RouteFallback() {
+  return (
+    <div className="flex items-center justify-center min-h-[50vh]">
+      <div className="w-6 h-6 rounded-full border-2 border-transparent animate-spin"
+           style={{ borderTopColor: 'var(--system-blue)', borderRightColor: 'var(--system-blue)' }} />
+    </div>
+  )
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -116,6 +122,7 @@ function AnimatedRoutes() {
 
   return (
     <AnimatePresence mode="wait">
+      <Suspense fallback={<RouteFallback />}>
       <Routes location={location} key={location.pathname}>
         {/* Public routes */}
         <Route
@@ -237,6 +244,7 @@ function AnimatedRoutes() {
           }
         />
       </Routes>
+      </Suspense>
     </AnimatePresence>
   )
 }

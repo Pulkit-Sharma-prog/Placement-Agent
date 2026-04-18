@@ -63,3 +63,4 @@ htmlcov/
 settings.local.json
 *.bak
 *.tmp
+.claude/

@@ -7,10 +7,10 @@ import EmptyState from '../../components/ui/EmptyState'
 import { SkeletonTable } from '../../components/ui/SkeletonLoader'
 
 const TYPE_COLORS = {
-  match_alert: '#6C63FF',
-  shortlist:   '#4ADE80',
-  reminder:    '#FF8C42',
-  digest:      '#3ECFCF',
+  match_alert: '#0A84FF',
+  shortlist:   '#32D74B',
+  reminder:    '#FF9F0A',
+  digest:      '#64D2FF',
 }
 
 export default function Notifications() {
@@ -39,7 +39,7 @@ export default function Notifications() {
           {unreadCount > 0 && (
             <span
               className="text-xs px-2.5 py-1 rounded-full font-medium"
-              style={{ background: 'rgba(108,99,255,0.2)', color: 'var(--purple)' }}
+              style={{ background: 'rgba(10,132,255,0.2)', color: 'var(--purple)' }}
             >
               {unreadCount} unread
             </span>
@@ -68,9 +68,9 @@ export default function Notifications() {
               >
                 <div
                   className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5"
-                  style={{ background: `${TYPE_COLORS[n.type] || '#6C63FF'}20` }}
+                  style={{ background: `${TYPE_COLORS[n.type] || '#0A84FF'}20` }}
                 >
-                  <Bell size={16} style={{ color: TYPE_COLORS[n.type] || '#6C63FF' }} />
+                  <Bell size={16} style={{ color: TYPE_COLORS[n.type] || '#0A84FF' }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">

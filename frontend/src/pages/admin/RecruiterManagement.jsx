@@ -8,7 +8,7 @@ import { SkeletonCard } from '../../components/ui/SkeletonLoader'
 import EmptyState from '../../components/ui/EmptyState'
 
 function EngagementBar({ score }) {
-  const color = score >= 70 ? '#3ECFCF' : score >= 40 ? '#FF8C42' : '#FF6B9D'
+  const color = score >= 70 ? '#64D2FF' : score >= 40 ? '#FF9F0A' : '#FF375F'
   return (
     <div className="flex items-center gap-2">
       <div className="flex-1 h-2 rounded-full overflow-hidden" style={{ background: 'var(--bg-elevated)' }}>
@@ -90,7 +90,7 @@ export default function RecruiterManagement() {
                   <div className="flex items-center gap-3">
                     <div
                       className="w-10 h-10 rounded-xl flex items-center justify-center text-sm font-bold"
-                      style={{ background: 'rgba(108,99,255,0.15)', color: 'var(--purple)' }}
+                      style={{ background: 'rgba(10,132,255,0.15)', color: 'var(--purple)' }}
                     >
                       {r.company_name?.[0] || r.full_name?.[0] || '?'}
                     </div>

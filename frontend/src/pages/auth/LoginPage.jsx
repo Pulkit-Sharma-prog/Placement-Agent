@@ -58,9 +58,9 @@ export default function LoginPage() {
       {/* Aurora blobs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-1/4 left-1/3 w-96 h-96 rounded-full opacity-20 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #6C63FF, transparent)' }} />
+          style={{ background: 'radial-gradient(circle, #0A84FF, transparent)' }} />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full opacity-15 blur-3xl"
-          style={{ background: 'radial-gradient(circle, #3ECFCF, transparent)' }} />
+          style={{ background: 'radial-gradient(circle, #64D2FF, transparent)' }} />
       </div>
 
       <motion.div

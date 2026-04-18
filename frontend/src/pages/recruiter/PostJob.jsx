@@ -165,7 +165,7 @@ export default function PostJob() {
                   <div className="flex flex-wrap gap-1.5">
                     {form[type].map(s => (
                       <span key={s} className="flex items-center gap-1 text-xs px-2.5 py-1 rounded-full"
-                        style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF' }}>
+                        style={{ background: 'rgba(10,132,255,0.15)', color: '#0A84FF' }}>
                         {s}
                         <button onClick={() => removeSkill(type, s)}><X size={10} /></button>
                       </span>
@@ -190,9 +190,9 @@ export default function PostJob() {
                     <button key={b} onClick={() => toggleBranch(b)}
                       className="px-3 py-1.5 rounded-xl text-xs font-medium transition-all"
                       style={{
-                        background: form.eligible_branches.includes(b) ? 'rgba(108,99,255,0.25)' : 'var(--bg-elevated)',
-                        border: `1px solid ${form.eligible_branches.includes(b) ? 'rgba(108,99,255,0.5)' : 'var(--border-subtle)'}`,
-                        color: form.eligible_branches.includes(b) ? '#6C63FF' : 'var(--text-secondary)',
+                        background: form.eligible_branches.includes(b) ? 'rgba(10,132,255,0.25)' : 'var(--bg-elevated)',
+                        border: `1px solid ${form.eligible_branches.includes(b) ? 'rgba(10,132,255,0.5)' : 'var(--border-subtle)'}`,
+                        color: form.eligible_branches.includes(b) ? '#0A84FF' : 'var(--text-secondary)',
                       }}>
                       {b}
                     </button>
@@ -216,7 +216,7 @@ export default function PostJob() {
                 <div className="mt-3 flex flex-wrap gap-1.5">
                   {form.required_skills.map(s => (
                     <span key={s} className="text-xs px-2 py-0.5 rounded-full"
-                      style={{ background: 'rgba(108,99,255,0.15)', color: '#6C63FF' }}>{s}</span>
+                      style={{ background: 'rgba(10,132,255,0.15)', color: '#0A84FF' }}>{s}</span>
                   ))}
                 </div>
                 <div className="mt-3 text-xs" style={{ color: 'var(--text-muted)' }}>
